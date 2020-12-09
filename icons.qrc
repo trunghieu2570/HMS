@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>Icons/White/booking_32px.png</file>
+        <file>Icons/White/calendar_32px.png</file>
+        <file>Icons/White/customer_32px.png</file>
+        <file>Icons/White/exit_32px.png</file>
+        <file>Icons/White/home_32px.png</file>
+        <file>Icons/White/reservation_32px.png</file>
+        <file>Icons/White/settings_32px.png</file>
+        <file>Icons/White/service_32px.png</file>
+    </qresource>
+</RCC>
