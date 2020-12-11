@@ -63,6 +63,14 @@ ApplicationWindow  {
                     _text: "Guest"
                     _src: "qrc:/icons/Icons/White/customer_32px.png"
                 }
+                SidebarMenuItem {
+                    _text: "Room Types"
+                    _src: "qrc:/icons/Icons/White/customer_32px.png"
+                    onClicked: {
+                        stackLayout.currentIndex = 2
+                        pageName.text = qsTr("Room Types")
+                    }
+                }
             }
         }
         Rectangle {
@@ -90,7 +98,8 @@ ApplicationWindow  {
                             font.pointSize: 13
                             font.bold: true
                             Label {
-                                text: qsTr("Reservations")
+                                id: pageName
+                                text: qsTr("Page name")
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
                                 anchors.leftMargin: 30
@@ -129,6 +138,7 @@ ApplicationWindow  {
                     }
                 }
                 StackLayout {
+                    id: stackLayout
                     currentIndex: 1
                     Layout.margins: 40
                     Layout.fillHeight: true
@@ -207,6 +217,7 @@ ApplicationWindow  {
                     }
                     //Page2
                     Rectangle {
+                        id: r1
                         ColumnLayout {
                             anchors.fill: parent
                             RowLayout {
@@ -242,45 +253,43 @@ ApplicationWindow  {
                                     text: qsTr("Search")
                                 }
                             }
-                            TableView {
+                            HTableView {
                                 id: clientTable
+                                _model: clientModel
+                            }
+                        }
+                    }
+                    Rectangle {
+                        ColumnLayout {
+                            anchors.fill: parent
+                            RowLayout {
                                 Layout.fillHeight: true
                                 Layout.fillWidth: true
-                                columnSpacing: 1
-                                rowSpacing: 1
-                                clip: true
-                                topMargin: columnsHeader.implicitHeight
-
-                                columnWidthProvider: function (column) {
-                                    return clientTable.model ? clientTable.width/clientTable.model.columnCount() : 0
+                                Button {
+                                    text: qsTr("Add New Type")
                                 }
-
-                                model: clientModel
-                                delegate: Rectangle {
-                                    implicitWidth: clientTable.columnWidthProvider(column)
-                                    implicitHeight: 50
-                                    Text {
-                                        text: display
-                                    }
+                                Button {
+                                    text: qsTr("Edit")
                                 }
-
-
-
-                                Row {
-                                    id: columnsHeader1
-                                    z: 2
-                                    y: clientTable.contentY
-                                    Repeater {
-                                        model: clientTable.columns > 0 ? clientTable.columns : 1
-                                        Label {
-                                            width: clientTable.columnWidthProvider(modelData)
-                                            height: 40
-                                            text: clientModel.headerData(modelData, Qt.Horizontal)
-                                        }
-                                    }
+                                Button {
+                                    text: qsTr("Remove")
                                 }
-                                ScrollIndicator.horizontal: ScrollIndicator { }
-                                ScrollIndicator.vertical: ScrollIndicator { }
+                                Rectangle {
+                                    Layout.fillWidth: true
+                                }
+                                TextField {
+                                    height: 30
+                                    selectByMouse: true
+                                    placeholderText: qsTr("Find some thing...")
+                                }
+                                Button {
+                                    Layout.maximumWidth: 60
+                                    text: qsTr("GO")
+                                }
+                            }
+                            HTableView {
+                                id: roomTypeTable
+                                _model: roomTypeModel
                             }
                         }
                     }

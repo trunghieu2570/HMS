@@ -6,6 +6,8 @@ Button {
     id: button
     property string _text: "text"
     property string _src: "qrc:/icons/Icons/White/customer_32px.png"
+    property int _pageId: 0
+
     palette {
         button: hovered? "blue" : "transparent"
     }

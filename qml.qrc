@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>SidebarMenuItem.qml</file>
+        <file>HTableView.qml</file>
     </qresource>
 </RCC>

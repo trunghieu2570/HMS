@@ -9,6 +9,7 @@ CONFIG += c++11
 SOURCES += \
         Database/hmsdatabase.cpp \
         Models/clientsqlmodel.cpp \
+        Models/roomtypesqlmodel.cpp \
         Models/testmodel.cpp \
         main.cpp
 
@@ -16,8 +17,7 @@ RESOURCES += qml.qrc \
     icons.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH += \
-    Models/TestModel
+QML_IMPORT_PATH =
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
@@ -30,4 +30,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     Database/hmsdatabase.h \
     Models/clientsqlmodel.h \
+    Models/roomtypesqlmodel.h \
     Models/testmodel.h
