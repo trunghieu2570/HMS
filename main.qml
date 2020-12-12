@@ -215,7 +215,7 @@ ApplicationWindow  {
                             }
                         }
                     }
-                    //Page2
+
                     Rectangle {
                         id: r1
                         ColumnLayout {
@@ -259,7 +259,10 @@ ApplicationWindow  {
                             }
                         }
                     }
+                    //Page: RoomType List
                     Rectangle {
+                        id: roomTypePage
+                        property variant _win
                         ColumnLayout {
                             anchors.fill: parent
                             RowLayout {
@@ -267,12 +270,11 @@ ApplicationWindow  {
                                 Layout.fillWidth: true
                                 Button {
                                     text: qsTr("Add New Type")
-                                }
-                                Button {
-                                    text: qsTr("Edit")
-                                }
-                                Button {
-                                    text: qsTr("Remove")
+                                    onClicked: {
+                                        var _com = Qt.createComponent("AddRoomTypeDialog.qml")
+                                        _win = _com.createObject(roomTypePage)
+                                        _win.show()
+                                    }
                                 }
                                 Rectangle {
                                     Layout.fillWidth: true
@@ -290,8 +292,13 @@ ApplicationWindow  {
                             HTableView {
                                 id: roomTypeTable
                                 _model: roomTypeModel
+                                columnWidthProvider: function(column) {
+                                    let columns = [100,200,0,0,0,0,0,roomTypeTable.width - 400]
+                                    return columns[column]
+                                }
                             }
                         }
+
                     }
                 }
 

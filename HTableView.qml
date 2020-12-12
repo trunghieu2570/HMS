@@ -6,22 +6,22 @@ TableView {
     id: tableView
     //properties
     required property variant _model
-
     focus: true
     Layout.fillHeight: true
     Layout.fillWidth: true
     //columnSpacing: 1
-    property int selected: 1
-    //rowSpacing: 1
+    //property int selected: 1
+    rowSpacing: 1
     clip: true
     topMargin: columnsHeader.implicitHeight
     columnWidthProvider: function (column) {
-        return tableView.model ? tableView.width/tableView.model.columnCount() : 0
+        return tableView.model ? (tableView.width-actionHeader.width)/tableView.model.columnCount() : 0
     }
     flickableDirection: Flickable.AutoFlickIfNeeded
     model: _model
     onWidthChanged: tableView.forceLayout()
     //handle keypress
+    /*
     Keys.onUpPressed: {
         if (tableView.selected > 0)
             tableView.selected--
@@ -34,35 +34,109 @@ TableView {
         tableView.contentY = tableView.delegate.implicitHeight * tableView.selected
         tableView.forceLayout()
     }
+    */
+    Rectangle {
+        anchors.fill: parent
+        color: "#ebedf2"
+    }
     Row {
         id: columnsHeader
-        z: 2
+        z: 3
         y: tableView.contentY
         Repeater {
             model: tableView.columns > 0 ? tableView.columns : 1
-            Button {
+            Button { 
+                visible: tableView.columnWidthProvider(modelData) !== 0
                 width: tableView.columnWidthProvider(modelData)
                 height: 40
-                text: _model.headerData(modelData, Qt.Horizontal)
+                Label {
+                    anchors.fill: parent
+                    anchors.margins: 10
+                    text: _model.headerData(modelData, Qt.Horizontal)
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+        }
+
+        Button {
+            id: actionHeader
+            width: 100
+            height: 40
+            Label {
+                anchors.fill: parent
+                anchors.margins: 10
+                text: qsTr("Actions")
+                verticalAlignment: Text.AlignVCenter
+            }
+        }
+
+    }
+
+    Rectangle {
+        color: "#ebedf2"
+        x: tableView.width-actionHeader.width
+        width: actionHeader.width
+        height: tableView.contentHeight
+    }
+
+    Column {
+        id: rowActions
+        z: 2
+        x: tableView.width-actionHeader.width
+        spacing: 1
+        Repeater {
+            id: repeater
+            model: tableView.rows > 0 ? tableView.rows : 0
+            Rectangle {
+                width: actionHeader.width
+                height: 40
+                color: modelData % 2 != 0 ? "mintcream" : "white"
+                Row {
+                    anchors.fill: parent
+                    Button {
+                        //anchors.fill: parent
+                        //anchors.margins: 10
+                        anchors.verticalCenter: parent.verticalCenter
+                        palette {
+                            button: "transparent"
+                        }
+                        icon.source: "qrc:/icons/Icons/Black/edit_32px.png"
+                        display: "IconOnly"
+                        text: qsTr("Edit")
+                        width: 32; height: 32
+                    }
+                    Button {
+                        //anchors.fill: parent
+                        //anchors.margins: 10
+                        anchors.verticalCenter: parent.verticalCenter
+                        palette {
+                            button: "transparent"
+                        }
+                        icon.source: "qrc:/icons/Icons/Black/trash_32px.png"
+                        display: "IconOnly"
+                        text: qsTr("Remove")
+                        width: 32; height: 32
+                    }
+                }
             }
         }
     }
-
     delegate: Rectangle {
         id: cell
-        border.width: 1
         implicitHeight: 40
-        color: tableView.selected === row ? "lightblue" : "transparent"
+        color: row % 2 != 0 ? "mintcream" : "white"
+        /*
         MouseArea {
             anchors.fill: parent
             onClicked: {
                 console.log(row)
-                tableView.selected = row
+                //tableView.selected = row
                 tableView.forceLayout()
                 tableView.focus = true
             }
 
         }
+        */
         Text {
             anchors.fill: parent
             anchors.margins: 10
@@ -73,3 +147,9 @@ TableView {
     //ScrollIndicator.horizontal: ScrollIndicator { }
    // ScrollIndicator.vertical: ScrollIndicator { }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

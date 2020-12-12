@@ -8,5 +8,7 @@
         <file>Icons/White/reservation_32px.png</file>
         <file>Icons/White/settings_32px.png</file>
         <file>Icons/White/service_32px.png</file>
+        <file>Icons/Black/edit_32px.png</file>
+        <file>Icons/Black/trash_32px.png</file>
     </qresource>
 </RCC>

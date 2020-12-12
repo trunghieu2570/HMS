@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>SidebarMenuItem.qml</file>
         <file>HTableView.qml</file>
+        <file>AddRoomTypeDialog.qml</file>
     </qresource>
 </RCC>
