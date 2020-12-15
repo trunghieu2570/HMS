@@ -2,14 +2,20 @@ import QtQuick 2.0
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
+import hms.dto 1.0
 
 Window {
+    property string _mode: "add"
+    property int _recordId: -1
     id: root
     width: 800
     height: 600
     visible: true
     title: qsTr("Add/Modify Room Type")
     color: "floralwhite"
+
+
+
     ColumnLayout {
         id: col
         anchors.fill: parent
@@ -27,7 +33,7 @@ Window {
             TextField {
                 selectByMouse: true
                 Layout.fillWidth: true
-                id: textField
+                id: nameTextField
                 //placeholderText: qsTr("Text Field")
             }
         }
@@ -44,6 +50,7 @@ Window {
                 selectByMouse: true
                 Layout.fillWidth: true
                 inputMethodHints: "ImhDigitsOnly"
+                id: singleBedTextField
                 validator: IntValidator {top: 100; bottom: 0;}
                 text: qsTr("0")
                 //placeholderText: qsTr("Text Field")
@@ -56,6 +63,7 @@ Window {
                 selectByMouse: true
                 Layout.fillWidth: true
                 inputMethodHints: "ImhDigitsOnly"
+                id: doubleBedTextField
                 text: qsTr("0")
                 validator: IntValidator {top: 100; bottom: 0;}
                 //placeholderText: qsTr("Text Field")
@@ -67,6 +75,7 @@ Window {
             TextField {
                 selectByMouse: true
                 Layout.fillWidth: true
+                id: guestTextField
                 inputMethodHints: "ImhDigitsOnly"
                 text: qsTr("0")
                 validator: IntValidator {top: 300; bottom: 0;}
@@ -113,6 +122,7 @@ Window {
             }
 
             TextField {
+                id: priceTextField
                 Layout.fillWidth: true
                 selectByMouse: true
                 validator: IntValidator {top: 1000000000; bottom: 0;}
@@ -124,6 +134,7 @@ Window {
             }
 
             TextField {
+                id: surchargeTextField
                 Layout.fillWidth: true
                 validator: IntValidator {top: 1000000000; bottom: 0;}
                 text: qsTr("0")
@@ -143,6 +154,33 @@ Window {
 
             Button {
                 text: qsTr("Save")
+                onClicked: {
+                    if (_mode == "add") {
+                        let ok = roomTypeModel.addRow(
+                                    nameTextField.text,
+                                    singleBedTextField.text,
+                                    doubleBedTextField.text,
+                                    guestTextField.text,
+                                    descriptionTextArea.text,
+                                    priceTextField.text,
+                                    surchargeTextField.text)
+                        if (ok)
+                            console.log("success")
+                    }
+                    if (_mode == "edit") {
+                        let ok = roomTypeModel.updateRow(
+                                    _recordId,
+                                    nameTextField.text,
+                                    singleBedTextField.text,
+                                    doubleBedTextField.text,
+                                    guestTextField.text,
+                                    descriptionTextArea.text,
+                                    priceTextField.text,
+                                    surchargeTextField.text)
+                        if (ok)
+                            console.log("success")
+                    }
+                }
             }
 
             Button {
@@ -151,6 +189,17 @@ Window {
                     root.close()
                 }
             }
+        }
+    }
+    Component.onCompleted: {
+        if (_recordId >= 0) {
+            nameTextField.text = roomTypeModel.get(_recordId).name
+            singleBedTextField.text = roomTypeModel.get(_recordId).singleBeds
+            doubleBedTextField.text = roomTypeModel.get(_recordId).doubleBeds
+            guestTextField.text = roomTypeModel.get(_recordId).guests
+            priceTextField.text = roomTypeModel.get(_recordId).price
+            surchargeTextField.text = roomTypeModel.get(_recordId).surcharge
+            descriptionTextArea.text = roomTypeModel.get(_recordId).description
         }
     }
 }

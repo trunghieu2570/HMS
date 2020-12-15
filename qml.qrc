@@ -3,6 +3,17 @@
         <file>main.qml</file>
         <file>SidebarMenuItem.qml</file>
         <file>HTableView.qml</file>
+        <file>MessageBox.qml</file>
+        <file>HDatePicker.qml</file>
+    </qresource>
+    <qresource prefix="/dialogs">
+        <file>AddInventoryItemDialog.qml</file>
         <file>AddRoomTypeDialog.qml</file>
+        <file>AddClientDialog.qml</file>
+    </qresource>
+    <qresource prefix="/pages">
+        <file>InventoryListPage.qml</file>
+        <file>RoomTypeListPage.qml</file>
+        <file>ClientListPage.qml</file>
     </qresource>
 </RCC>

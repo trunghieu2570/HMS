@@ -8,7 +8,11 @@ CONFIG += c++11
 
 SOURCES += \
         Database/hmsdatabase.cpp \
+        Dto/clientdto.cpp \
+        Dto/inventorydto.cpp \
+        Dto/roomtypedto.cpp \
         Models/clientsqlmodel.cpp \
+        Models/inventorysqlmodel.cpp \
         Models/roomtypesqlmodel.cpp \
         Models/testmodel.cpp \
         main.cpp
@@ -29,6 +33,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     Database/hmsdatabase.h \
+    Dto/clientdto.h \
+    Dto/inventorydto.h \
+    Dto/roomtypedto.h \
     Models/clientsqlmodel.h \
+    Models/inventorysqlmodel.h \
     Models/roomtypesqlmodel.h \
     Models/testmodel.h

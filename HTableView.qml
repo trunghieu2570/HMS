@@ -6,6 +6,10 @@ TableView {
     id: tableView
     //properties
     required property variant _model
+    signal editButtonClicked(int index)
+    signal deleteButtonClicked(int index)
+
+
     focus: true
     Layout.fillHeight: true
     Layout.fillWidth: true
@@ -104,6 +108,9 @@ TableView {
                         display: "IconOnly"
                         text: qsTr("Edit")
                         width: 32; height: 32
+                        onClicked: {
+                            editButtonClicked(modelData)
+                        }
                     }
                     Button {
                         //anchors.fill: parent
@@ -116,6 +123,9 @@ TableView {
                         display: "IconOnly"
                         text: qsTr("Remove")
                         width: 32; height: 32
+                        onClicked: {
+                            deleteButtonClicked(modelData)
+                        }
                     }
                 }
             }
@@ -141,6 +151,14 @@ TableView {
             anchors.fill: parent
             anchors.margins: 10
             text: display
+            property bool hovered: false
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                ToolTip.delay: 1000
+                ToolTip.visible: containsMouse
+                ToolTip.text: display
+            }
         }
     }
     ScrollBar.vertical: ScrollBar {}

@@ -23,11 +23,15 @@ QVariant ClientSqlModel::headerData(int section, Qt::Orientation orientation, in
             case 4:
                 return tr("Email");
             case 5:
-                return tr("Phone Number");
+                return tr("Address");
             case 6:
-                return tr("Nationality");
+                return tr("Phone Number");
             case 7:
+                return tr("Nationality");
+            case 8:
                 return tr("Identity Number");
+            case 9:
+                return tr("Comments");
             default:
                 return QVariant();
             }
@@ -36,7 +40,52 @@ QVariant ClientSqlModel::headerData(int section, Qt::Orientation orientation, in
     return QVariant();
 }
 
-void ClientSqlModel::populate()
+void ClientSqlModel::populate(const QString &keyword)
 {
-    setQuery("SELECT [Id], [Name], [Birthday], [Gender], [Email], [PhoneNumber], [Nationality], [IdentityNumber] FROM Client");
+    setQuery(
+                "SELECT TOP (1000) [id]"
+                ",[name]"
+                ",[birthday]"
+                ",[gender]"
+                ",[email]"
+                ",[address]"
+                ",[phone_number]"
+                ",[nationality]"
+                ",[identity_number]"
+                ",[comments]"
+                "FROM [HOTEL_DATABASE].[dbo].[client]"
+                "WHERE [deleted] <> 1"
+                );
+}
+
+bool ClientSqlModel::addRow(const QString &id, const QString &name, const QDate &birthday, bool gender, const QString &email, const QString &address, const QString &phoneNumber, const QString &nationality, const QString &identityNumber, const QString &comments)
+{
+    QSqlQuery _query;
+    _query.prepare("INSERT INTO [dbo].[client]"
+              "([id]"
+              ",[name]"
+              ",[birthday]"
+              ",[gender]"
+              ",[email]"
+              ",[address]"
+              ",[phone_number]"
+              ",[nationality]"
+              ",[identity_number]"
+              ",[comments]"
+              ",[deleted])"
+              "VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+    _query.addBindValue(id);
+    _query.addBindValue(name);
+    _query.addBindValue(birthday);
+    _query.addBindValue(gender);
+    _query.addBindValue(email);
+    _query.addBindValue(address);
+    _query.addBindValue(phoneNumber);
+    _query.addBindValue(nationality);
+    _query.addBindValue(identityNumber);
+    _query.addBindValue(comments);
+    _query.addBindValue(0);
+    bool r = _query.exec();
+    if (r) this->populate();
+    return r;
 }

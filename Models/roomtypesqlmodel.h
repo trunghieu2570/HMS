@@ -4,6 +4,9 @@
 
 #include <QSqlQueryModel>
 #include <QSqlRecord>
+#include <QSqlQuery>
+#include "Dto/roomtypedto.h"
+#include <QSqlField>
 
 class RoomTypeSqlModel : public QSqlQueryModel
 {
@@ -12,7 +15,23 @@ class RoomTypeSqlModel : public QSqlQueryModel
 public:
     explicit RoomTypeSqlModel(QObject *parent = nullptr);
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-    void populate();
+    Q_INVOKABLE bool addRow(const QString &name,
+                            const QString &sbed,
+                            const QString &dbed,
+                            const QString &guest,
+                            const QString &description,
+                            const QString &price,
+                            const QString &surcharge);
+    Q_INVOKABLE bool updateRow(int id,
+                               const QString &name = nullptr,
+                               const QString &sbed = nullptr,
+                               const QString &dbed = nullptr,
+                               const QString &guest = nullptr,
+                               const QString &description = nullptr,
+                               const QString &price = nullptr,
+                               const QString &surcharge = nullptr);
+    Q_INVOKABLE void populate();
+    Q_INVOKABLE RoomTypeDto *get(int index);
 private:
 };
 

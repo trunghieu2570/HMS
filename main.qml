@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.3
 import QtQuick.Controls 2.5
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
+import "qrc:/pages"
 
 ApplicationWindow  {
     title: qsTr("HMS - Hotel Management System 1.0")
@@ -62,6 +63,10 @@ ApplicationWindow  {
                 SidebarMenuItem {
                     _text: "Guest"
                     _src: "qrc:/icons/Icons/White/customer_32px.png"
+                    onClicked: {
+                        stackLayout.currentIndex = 4
+                        pageName.text = qsTr("Guests")
+                    }
                 }
                 SidebarMenuItem {
                     _text: "Room Types"
@@ -69,6 +74,14 @@ ApplicationWindow  {
                     onClicked: {
                         stackLayout.currentIndex = 2
                         pageName.text = qsTr("Room Types")
+                    }
+                }
+                SidebarMenuItem {
+                    _text: "Inventory"
+                    _src: "qrc:/icons/Icons/White/customer_32px.png"
+                    onClicked: {
+                        stackLayout.currentIndex = 3
+                        pageName.text = qsTr("Inventory")
                     }
                 }
             }
@@ -259,47 +272,19 @@ ApplicationWindow  {
                             }
                         }
                     }
-                    //Page: RoomType List
-                    Rectangle {
-                        id: roomTypePage
-                        property variant _win
-                        ColumnLayout {
-                            anchors.fill: parent
-                            RowLayout {
-                                Layout.fillHeight: true
-                                Layout.fillWidth: true
-                                Button {
-                                    text: qsTr("Add New Type")
-                                    onClicked: {
-                                        var _com = Qt.createComponent("AddRoomTypeDialog.qml")
-                                        _win = _com.createObject(roomTypePage)
-                                        _win.show()
-                                    }
-                                }
-                                Rectangle {
-                                    Layout.fillWidth: true
-                                }
-                                TextField {
-                                    height: 30
-                                    selectByMouse: true
-                                    placeholderText: qsTr("Find some thing...")
-                                }
-                                Button {
-                                    Layout.maximumWidth: 60
-                                    text: qsTr("GO")
-                                }
-                            }
-                            HTableView {
-                                id: roomTypeTable
-                                _model: roomTypeModel
-                                columnWidthProvider: function(column) {
-                                    let columns = [100,200,0,0,0,0,0,roomTypeTable.width - 400]
-                                    return columns[column]
-                                }
-                            }
-                        }
+                    RoomTypeListPage {
 
                     }
+
+
+                    InventoryListPage {
+
+                    }
+
+                    ClientListPage {
+
+                    }
+
                 }
 
 
