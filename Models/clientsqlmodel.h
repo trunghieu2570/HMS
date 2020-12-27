@@ -4,6 +4,9 @@
 #include <QSqlQueryModel>
 #include <QSqlRecord>
 #include <QSqlQuery>
+#include "Dto/clientdto.h"
+#include <QSqlRecord>
+#include <QSqlField>
 
 class ClientSqlModel : public QSqlQueryModel
 {
@@ -24,6 +27,19 @@ public:
             const QString &nationality,
             const QString &identityNumber,
             const QString &comments);
+    Q_INVOKABLE bool updateRow(
+            const QString &id,
+            const QString &name,
+            const QDate &birthday,
+            bool gender,
+            const QString &email,
+            const QString &address,
+            const QString &phoneNumber,
+            const QString &nationality,
+            const QString &identityNumber,
+            const QString &comments);
+    Q_INVOKABLE bool deleteRow(int id);
+    Q_INVOKABLE ClientDto* get(int id);
 private:
 };
 

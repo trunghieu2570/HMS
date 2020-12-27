@@ -10,11 +10,18 @@ SOURCES += \
         Database/hmsdatabase.cpp \
         Dto/clientdto.cpp \
         Dto/inventorydto.cpp \
+        Dto/roomdto.cpp \
         Dto/roomtypedto.cpp \
+        Dto/servicetypedto.cpp \
         Models/clientsqlmodel.cpp \
         Models/inventorysqlmodel.cpp \
+        Models/roominventorysqlmodel.cpp \
+        Models/roomsqlmodel.cpp \
         Models/roomtypesqlmodel.cpp \
+        Models/servicetypesqlmodel.cpp \
+        Models/sqlquerymodel.cpp \
         Models/testmodel.cpp \
+        Models/useraccountsqlmodel.cpp \
         main.cpp
 
 RESOURCES += qml.qrc \
@@ -35,8 +42,15 @@ HEADERS += \
     Database/hmsdatabase.h \
     Dto/clientdto.h \
     Dto/inventorydto.h \
+    Dto/roomdto.h \
     Dto/roomtypedto.h \
+    Dto/servicetypedto.h \
     Models/clientsqlmodel.h \
     Models/inventorysqlmodel.h \
+    Models/roominventorysqlmodel.h \
+    Models/roomsqlmodel.h \
     Models/roomtypesqlmodel.h \
-    Models/testmodel.h
+    Models/servicetypesqlmodel.h \
+    Models/sqlquerymodel.h \
+    Models/testmodel.h \
+    Models/useraccountsqlmodel.h

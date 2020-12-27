@@ -69,7 +69,7 @@ TableView {
             Label {
                 anchors.fill: parent
                 anchors.margins: 10
-                text: qsTr("Actions")
+                text: qsTr("Hành động")
                 verticalAlignment: Text.AlignVCenter
             }
         }
@@ -150,14 +150,14 @@ TableView {
         Text {
             anchors.fill: parent
             anchors.margins: 10
-            text: display
+            text: _model.data(_model.index(row, column))
             property bool hovered: false
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
                 ToolTip.delay: 1000
                 ToolTip.visible: containsMouse
-                ToolTip.text: display
+                ToolTip.text: _model.data(_model.index(row, column))
             }
         }
     }

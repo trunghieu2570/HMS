@@ -45,23 +45,23 @@ ApplicationWindow  {
                 anchors.topMargin: 30
                 width: parent.width
                 SidebarMenuItem {
-                    _text: "Dashboard"
+                    _text: "Bảng điều khiển"
                     _src: "qrc:/icons/Icons/White/home_32px.png"
                 }
                 SidebarMenuItem {
-                    _text: "Frontdesk"
+                    _text: "Đặt phòng nhanh"
                     _src: "qrc:/icons/Icons/White/booking_32px.png"
                 }
                 SidebarMenuItem {
-                    _text: "Services"
+                    _text: "Các dịch vụ"
                     _src: "qrc:/icons/Icons/White/service_32px.png"
                 }
                 SidebarMenuItem {
-                    _text: "Reservations"
+                    _text: "Lịch phòng"
                     _src: "qrc:/icons/Icons/White/reservation_32px.png"
                 }
                 SidebarMenuItem {
-                    _text: "Guest"
+                    _text: "Khách hàng"
                     _src: "qrc:/icons/Icons/White/customer_32px.png"
                     onClicked: {
                         stackLayout.currentIndex = 4
@@ -69,7 +69,7 @@ ApplicationWindow  {
                     }
                 }
                 SidebarMenuItem {
-                    _text: "Room Types"
+                    _text: "Loại phòng"
                     _src: "qrc:/icons/Icons/White/customer_32px.png"
                     onClicked: {
                         stackLayout.currentIndex = 2
@@ -77,11 +77,27 @@ ApplicationWindow  {
                     }
                 }
                 SidebarMenuItem {
-                    _text: "Inventory"
+                    _text: "Đồ dùng"
                     _src: "qrc:/icons/Icons/White/customer_32px.png"
                     onClicked: {
                         stackLayout.currentIndex = 3
                         pageName.text = qsTr("Inventory")
+                    }
+                }
+                SidebarMenuItem {
+                    _text: "Danh sách phòng"
+                    _src: "qrc:/icons/Icons/White/customer_32px.png"
+                    onClicked: {
+                        stackLayout.currentIndex = 5
+                        pageName.text = qsTr("Rooms")
+                    }
+                }
+                SidebarMenuItem {
+                    _text: "Loại dịch vụ"
+                    _src: "qrc:/icons/Icons/White/customer_32px.png"
+                    onClicked: {
+                        stackLayout.currentIndex = 6
+                        pageName.text = qsTr("Danh sách loại dịch vụ")
                     }
                 }
             }
@@ -284,6 +300,12 @@ ApplicationWindow  {
                     ClientListPage {
 
                     }
+
+                    RoomListPage {
+
+                    }
+
+                    ServiceTypeListPage {}
 
                 }
 

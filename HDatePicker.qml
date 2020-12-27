@@ -4,6 +4,7 @@ import QtQuick.Controls 1.4 as Old
 
 TextField {
     id: root
+    property alias _selectedDate: calendar.selectedDate
     placeholderText: qsTr("Datepicker")
     onEditingFinished: {
         calendar.selectedDate = Date.fromLocaleDateString(Qt.locale(), root.text, "d/M/yyyy")
@@ -19,8 +20,8 @@ TextField {
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
         contentItem: Old.Calendar {
             id: calendar
-            onClicked: function(date) {
-                root.text = date.toLocaleDateString(Qt.locale(), "d/M/yyyy")
+            onSelectedDateChanged: function() {
+                root.text = calendar.selectedDate.toLocaleDateString(Qt.locale(), "d/M/yyyy")
             }
         }
         onClosed: {

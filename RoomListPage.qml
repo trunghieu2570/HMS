@@ -6,7 +6,7 @@ import "qrc:/dialogs"
 
 //Page: Client List
 Rectangle {
-    id: clientPage
+    id: roomPage
     property variant _win
     ColumnLayout {
         anchors.fill: parent
@@ -16,15 +16,15 @@ Rectangle {
             Button {
                 text: qsTr("Add Item")
                 onClicked: {
-                    var _com = Qt.createComponent("qrc:/dialogs/AddClientDialog.qml")
-                    _win = _com.createObject(clientPage)
+                    var _com = Qt.createComponent("qrc:/dialogs/AddRoomDialog.qml")
+                    _win = _com.createObject(roomPage)
                     _win.show()
                 }
             }
             Button {
                 text: qsTr("Refresh")
                 onClicked: {
-                    clientModel.populate()
+                    roomModel.populate()
                 }
             }
             Rectangle {
@@ -40,7 +40,7 @@ Rectangle {
                 Layout.maximumWidth: 60
                 text: qsTr("Find")
                 onClicked: {
-                    clientModel.populate(searchTextField.text)
+                    roomModel.populate(searchTextField.text)
                 }
             }
             Button {
@@ -48,25 +48,26 @@ Rectangle {
                 text: qsTr("Reset")
                 onClicked: {
                     searchTextField.text = qsTr("")
-                    clientModel.populate(searchTextField.text)
+                    roomModel.populate(searchTextField.text)
                 }
             }
         }
         HTableView {
-            id: clientTable
-            _model: clientModel
+            id: roomTable
+            _model: roomModel
             columnWidthProvider: function(column) {
-                let columns = [100,200,100,0,200,300,0,0,0,clientTable.width - 1000]
+                let columns = [0,100,0,200,0,0,roomTable.width - 400]
                 return columns[column]
             }
             onEditButtonClicked: function(index) {
-                let _com = Qt.createComponent("qrc:/dialogs/AddClientDialog.qml")
-                _win = _com.createObject(clientPage, {_recordId: index, _mode: "edit"})
+                let _com = Qt.createComponent("qrc:/dialogs/AddRoomDialog.qml")
+                roomInventoryModel.populate(roomModel.get(index).id)
+                _win = _com.createObject(roomPage, {_recordId: index, _mode: "edit", _selectedInventoryItems: roomInventoryModel.getList()})
                 _win.show()
             }
             onDeleteButtonClicked: function(index) {
                 let _onAccepted = function() {
-                    clientModel.deleteRow(index)
+                    roomModel.deleteRow(index)
                     _mbwin.destroy()
                 }
                 let _mb = Qt.createComponent("qrc:/MessageBox.qml")
@@ -74,7 +75,7 @@ Rectangle {
                     _message: "Do you really want to delete this item?",
                     _title: "Confirm"
                 }
-                let _mbwin = _mb.createObject(clientPage, _properties)
+                let _mbwin = _mb.createObject(roomPage, _properties)
                 _mbwin.accepted.connect(_onAccepted)
                 _mbwin.show()
             }

@@ -7,8 +7,9 @@
 #include <QSqlQuery>
 #include "Dto/roomtypedto.h"
 #include <QSqlField>
+#include "Models/sqlquerymodel.h"
 
-class RoomTypeSqlModel : public QSqlQueryModel
+class RoomTypeSqlModel : public SqlQueryModel
 {
     Q_OBJECT
 
@@ -32,6 +33,7 @@ public:
                                const QString &surcharge = nullptr);
     Q_INVOKABLE void populate();
     Q_INVOKABLE RoomTypeDto *get(int index);
+    //Q_INVOKABLE QString getName
 private:
 };
 

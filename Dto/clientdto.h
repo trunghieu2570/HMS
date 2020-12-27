@@ -8,6 +8,7 @@
 class ClientDto: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString id READ getId CONSTANT)
     Q_PROPERTY(QString name READ getName WRITE setName)
     Q_PROPERTY(QDate birthday READ getBirthday WRITE setBirthday)
     Q_PROPERTY(bool gender READ getGender WRITE setGender)
@@ -19,6 +20,7 @@ class ClientDto: public QObject
     Q_PROPERTY(QString comments READ getComments WRITE setComments)
 
 private:
+    QString id;
     QString name;
     QDate birthday;
     bool gender;
@@ -49,6 +51,8 @@ public:
     void setIdentityNumber(const QString &value);
     QString getComments() const;
     void setComments(const QString &value);
+    QString getId() const;
+    void setId(const QString &value);
 };
 
 #endif // CLIENTDTO_H

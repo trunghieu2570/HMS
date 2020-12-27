@@ -61,7 +61,7 @@ void RoomTypeDto::setDescription(const QString &value)
     description = value;
 }
 
-RoomTypeDto::RoomTypeDto(QObject *parent)
+RoomTypeDto::RoomTypeDto(QObject *parent): QObject(parent)
 {
 
 }

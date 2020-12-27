@@ -10,10 +10,14 @@
         <file>AddInventoryItemDialog.qml</file>
         <file>AddRoomTypeDialog.qml</file>
         <file>AddClientDialog.qml</file>
+        <file>AddRoomDialog.qml</file>
+        <file>AddServiceTypeDialog.qml</file>
     </qresource>
     <qresource prefix="/pages">
         <file>InventoryListPage.qml</file>
         <file>RoomTypeListPage.qml</file>
         <file>ClientListPage.qml</file>
+        <file>RoomListPage.qml</file>
+        <file>ServiceTypeListPage.qml</file>
     </qresource>
 </RCC>

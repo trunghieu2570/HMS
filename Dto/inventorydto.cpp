@@ -1,6 +1,6 @@
 #include "inventorydto.h"
 
-InventoryDto::InventoryDto(QObject *parent)
+InventoryDto::InventoryDto(QObject *parent): QObject(parent)
 {
 
 }

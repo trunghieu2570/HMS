@@ -37,8 +37,17 @@ Window {
             }
 
             TextField {
-                id: textField8
-                text: "0000001"
+                id: idTextField
+                text: {
+                    if(clientModel.rowCount() === 0)
+                        return "000000"
+                    let _temp = '' + (parseInt(clientModel.get(clientModel.rowCount() - 1).id) + 1)
+                    while (_temp.length < 6) {
+                        _temp = '0' + _temp;
+                    }
+                    return _temp;
+                }
+
                 enabled: false
                 //hoverEnabled: false
                 Layout.columnSpan: 3
@@ -51,25 +60,23 @@ Window {
             }
 
             TextField {
-                id: textField
+                id: fullNameTextField
                 Layout.fillHeight: false
                 Layout.fillWidth: true
                 Layout.rowSpan: 1
                 Layout.columnSpan: 3
-                placeholderText: qsTr("Text Field")
+                selectByMouse: true
             }
-
-
 
             Label {
                 id: label2
                 text: qsTr("Gender:")
             }
 
-            TextField {
-                id: textField2
+            ComboBox {
+                id: genderComboBox
                 Layout.fillWidth: true
-                placeholderText: qsTr("Text Field")
+                model: ["Female", "Male"]
             }
 
             Label {
@@ -79,9 +86,10 @@ Window {
             }
 
             HDatePicker {
-                id: textField3
+                id: birthdayDatePicker
+                selectByMouse: true
                 Layout.fillWidth: true
-                placeholderText: qsTr("Text Field")
+                placeholderText: qsTr("DD/MM/YYYY")
             }
 
             Label {
@@ -92,12 +100,12 @@ Window {
             }
 
             TextField {
-                id: textField1
+                id: addressTextField
                 Layout.fillHeight: false
                 Layout.fillWidth: true
                 Layout.rowSpan: 1
                 Layout.columnSpan: 3
-                placeholderText: qsTr("Text Field")
+                selectByMouse: true
             }
 
             Label {
@@ -106,9 +114,9 @@ Window {
             }
 
             TextField {
-                id: textField4
+                id: phoneNumberTextField
                 Layout.fillWidth: true
-                placeholderText: qsTr("Text Field")
+                selectByMouse: true
             }
 
             Label {
@@ -117,9 +125,9 @@ Window {
             }
 
             TextField {
-                id: textField5
+                id: emailTextField
                 Layout.fillWidth: true
-                placeholderText: qsTr("Text Field")
+                selectByMouse: true
             }
 
             Label {
@@ -128,9 +136,9 @@ Window {
             }
 
             TextField {
-                id: textField6
+                id: identityNumberTextField
                 Layout.fillWidth: true
-                placeholderText: qsTr("Text Field")
+                selectByMouse: true
             }
 
             Label {
@@ -138,10 +146,10 @@ Window {
                 text: qsTr("Nationality:")
             }
 
-            TextField {
-                id: textField7
+            ComboBox {
+                id: nationalityComboBox
                 Layout.fillWidth: true
-                placeholderText: qsTr("Text Field")
+                model: ["Viet Nam"]
             }
 
             Label {
@@ -150,21 +158,16 @@ Window {
             }
 
             TextArea {
-                id: textArea
+                id: commentTextArea
                 wrapMode: Text.Wrap
-                //topInset: 1
                 Layout.columnSpan: 3
                 Layout.rowSpan: 1
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                //placeholderText: qsTr("Text Area")
-                //                background: Rectangle {
-                //                    color: "white"
-                //                }
+                background: Rectangle {
+                    color: "white"
+                }
             }
-
-
-
         }
 
         RowLayout {
@@ -183,29 +186,38 @@ Window {
                 text: qsTr("Save")
                 onClicked: {
                     if (_mode == "add") {
-                        let ok = roomTypeModel.addRow(
-                                nameTextField.text,
-                                singleBedTextField.text,
-                                doubleBedTextField.text,
-                                guestTextField.text,
-                                descriptionTextArea.text,
-                                priceTextField.text,
-                                surchargeTextField.text)
-                        if (ok)
+                        let ok = clientModel.addRow(
+                                idTextField.text,
+                                fullNameTextField.text,
+                                birthdayDatePicker._selectedDate,
+                                genderComboBox.currentText === "Male",
+                                emailTextField.text,
+                                addressTextField.text,
+                                phoneNumberTextField.text,
+                                nationalityComboBox.currentText,
+                                identityNumberTextField.text,
+                                commentTextArea.text)
+                        if (ok) {
                             console.log("success")
+                            root.close()
+                        }
                     }
                     if (_mode == "edit") {
-                        let ok = roomTypeModel.updateRow(
-                                _recordId,
-                                nameTextField.text,
-                                singleBedTextField.text,
-                                doubleBedTextField.text,
-                                guestTextField.text,
-                                descriptionTextArea.text,
-                                priceTextField.text,
-                                surchargeTextField.text)
-                        if (ok)
+                        let ok = clientModel.updateRow(
+                                idTextField.text,
+                                fullNameTextField.text,
+                                birthdayDatePicker._selectedDate,
+                                genderComboBox.currentText === "Male",
+                                emailTextField.text,
+                                addressTextField.text,
+                                phoneNumberTextField.text,
+                                nationalityComboBox.currentText,
+                                identityNumberTextField.text,
+                                commentTextArea.text)
+                        if (ok) {
                             console.log("success")
+                            root.close()
+                        }
                     }
                 }
             }
@@ -224,13 +236,16 @@ Window {
     }
     Component.onCompleted: {
         if (_recordId >= 0) {
-            nameTextField.text = roomTypeModel.get(_recordId).name
-            singleBedTextField.text = roomTypeModel.get(_recordId).singleBeds
-            doubleBedTextField.text = roomTypeModel.get(_recordId).doubleBeds
-            guestTextField.text = roomTypeModel.get(_recordId).guests
-            priceTextField.text = roomTypeModel.get(_recordId).price
-            surchargeTextField.text = roomTypeModel.get(_recordId).surcharge
-            descriptionTextArea.text = roomTypeModel.get(_recordId).description
+            idTextField.text = clientModel.get(_recordId).id
+            fullNameTextField.text = clientModel.get(_recordId).name
+            birthdayDatePicker._selectedDate = clientModel.get(_recordId).birthday
+            genderComboBox.currentIndex = clientModel.get(_recordId).gender ? 1 : 0
+            emailTextField.text = clientModel.get(_recordId).email
+            addressTextField.text = clientModel.get(_recordId).address
+            phoneNumberTextField.text = clientModel.get(_recordId).phoneNumber
+            nationalityComboBox.currentIndex = nationalityComboBox.find(clientModel.get(_recordId).nationality)
+            identityNumberTextField.text = clientModel.get(_recordId).identityNumber
+            commentTextArea.text = clientModel.get(_recordId).comments
         }
     }
 }
