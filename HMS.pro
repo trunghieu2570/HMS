@@ -13,6 +13,7 @@ SOURCES += \
         Dto/roomdto.cpp \
         Dto/roomtypedto.cpp \
         Dto/servicetypedto.cpp \
+        Dto/useraccountdto.cpp \
         Models/clientsqlmodel.cpp \
         Models/inventorysqlmodel.cpp \
         Models/roominventorysqlmodel.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
         Models/sqlquerymodel.cpp \
         Models/testmodel.cpp \
         Models/useraccountsqlmodel.cpp \
+        Providers/avatarimageprovider.cpp \
         main.cpp
 
 RESOURCES += qml.qrc \
@@ -45,6 +47,7 @@ HEADERS += \
     Dto/roomdto.h \
     Dto/roomtypedto.h \
     Dto/servicetypedto.h \
+    Dto/useraccountdto.h \
     Models/clientsqlmodel.h \
     Models/inventorysqlmodel.h \
     Models/roominventorysqlmodel.h \
@@ -53,4 +56,5 @@ HEADERS += \
     Models/servicetypesqlmodel.h \
     Models/sqlquerymodel.h \
     Models/testmodel.h \
-    Models/useraccountsqlmodel.h
+    Models/useraccountsqlmodel.h \
+    Providers/avatarimageprovider.h

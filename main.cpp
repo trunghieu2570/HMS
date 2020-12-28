@@ -13,12 +13,17 @@
 #include "Models/roominventorysqlmodel.h"
 #include "Models/roomsqlmodel.h"
 #include "Models/servicetypesqlmodel.h"
+#include "Models/useraccountsqlmodel.h"
 //Dto
 #include "Dto/roomtypedto.h"
 #include "Dto/inventorydto.h"
 #include "Dto/clientdto.h"
 #include "Dto/roomdto.h"
 #include "Dto/servicetypedto.h"
+#include "Dto/useraccountdto.h"
+
+//Provider
+#include "Providers/avatarimageprovider.h"
 
 int main(int argc, char *argv[])
 {
@@ -44,6 +49,11 @@ int main(int argc, char *argv[])
     auto *roomInventoryModel = new RoomInventorySqlModel;
     auto *serviceTypeModel = new ServiceTypeSqlModel;
     serviceTypeModel->populate();
+    auto *userAccountModel = new UserAccountSqlModel;
+    userAccountModel->populate();
+
+
+    auto *avatarProvider = new AvatarImageProvider;
 
     QQmlApplicationEngine engine;
 
@@ -52,7 +62,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<ClientDto>("hms.dto", 1, 0, "ClientDto");
     qmlRegisterType<RoomDto>("hms.dto", 1, 0, "RoomDto");
     qmlRegisterType<ServiceTypeDto>("hms.dto", 1, 0, "ServiceTypeDto");
+    qmlRegisterType<UserAccountDto>("hms.dto", 1, 0, "UserAccountDto");
 
+    engine.addImageProvider("avatar", avatarProvider);
     engine.rootContext()->setContextProperty("myModel", new TestModel);
     engine.rootContext()->setContextProperty("clientModel", clientModel);
     engine.rootContext()->setContextProperty("roomTypeModel", roomTypeModel);
@@ -60,6 +72,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("roomModel", roomModel);
     engine.rootContext()->setContextProperty("roomInventoryModel", roomInventoryModel);
     engine.rootContext()->setContextProperty("serviceTypeModel", serviceTypeModel);
+    engine.rootContext()->setContextProperty("userAccountModel", userAccountModel);
 
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

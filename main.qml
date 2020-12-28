@@ -100,6 +100,14 @@ ApplicationWindow  {
                         pageName.text = qsTr("Danh sách loại dịch vụ")
                     }
                 }
+                SidebarMenuItem {
+                    _text: "Tài khoản"
+                    _src: "qrc:/icons/Icons/White/customer_32px.png"
+                    onClicked: {
+                        stackLayout.currentIndex = 7
+                        pageName.text = qsTr("Quản lý tài khoản nhân viên")
+                    }
+                }
             }
         }
         Rectangle {
@@ -306,6 +314,8 @@ ApplicationWindow  {
                     }
 
                     ServiceTypeListPage {}
+
+                    UserAccountListPage {}
 
                 }
 

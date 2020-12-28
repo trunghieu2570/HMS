@@ -6,6 +6,7 @@ TableView {
     id: tableView
     //properties
     required property variant _model
+    property int _height: 40
     signal editButtonClicked(int index)
     signal deleteButtonClicked(int index)
 
@@ -93,7 +94,7 @@ TableView {
             model: tableView.rows > 0 ? tableView.rows : 0
             Rectangle {
                 width: actionHeader.width
-                height: 40
+                height: tableView._height
                 color: modelData % 2 != 0 ? "mintcream" : "white"
                 Row {
                     anchors.fill: parent
@@ -133,7 +134,7 @@ TableView {
     }
     delegate: Rectangle {
         id: cell
-        implicitHeight: 40
+        implicitHeight: tableView._height
         color: row % 2 != 0 ? "mintcream" : "white"
         /*
         MouseArea {
