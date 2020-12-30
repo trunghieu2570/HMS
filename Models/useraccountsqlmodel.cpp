@@ -79,7 +79,7 @@ bool UserAccountSqlModel::add(const QUrl &avatar, const QString &username, const
                    ",[username]"
                    ",[pass]"
                    ",[deleted])"
-                   "VALUES (?,?,?,?,?,?,?,?,?,?)");
+                   "VALUES (?,?,?,?,?,?,?,?,HASHBYTES('SHA2_256', ?),?)");
     _query.addBindValue(name);
     _query.addBindValue(birthday);
     _query.addBindValue(gender);
@@ -92,7 +92,7 @@ bool UserAccountSqlModel::add(const QUrl &avatar, const QString &username, const
     _query.addBindValue(0);
     if (!_query.exec()) return false;
 
-    if (!avatar.isEmpty()) {
+    if (!avatar.isEmpty() && avatar.scheme() == "file") {
         _query.prepare("UPDATE [dbo].[user_account] SET [avatar] = ? WHERE id = ?");
         QFile avtFile(avatar.toLocalFile());
         avtFile.open(QIODevice::ReadOnly);

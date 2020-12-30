@@ -13,6 +13,7 @@
         <file>AddRoomDialog.qml</file>
         <file>AddServiceTypeDialog.qml</file>
         <file>AddUserAccountDialog.qml</file>
+        <file>LoginDialog.qml</file>
     </qresource>
     <qresource prefix="/pages">
         <file>InventoryListPage.qml</file>

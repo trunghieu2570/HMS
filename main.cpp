@@ -25,6 +25,9 @@
 //Provider
 #include "Providers/avatarimageprovider.h"
 
+//Service
+#include "Services/authenticationservice.h"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -52,6 +55,8 @@ int main(int argc, char *argv[])
     auto *userAccountModel = new UserAccountSqlModel;
     userAccountModel->populate();
 
+    AuthenticationService *authService = AuthenticationService::getInstance();
+
 
     auto *avatarProvider = new AvatarImageProvider;
 
@@ -73,9 +78,11 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("roomInventoryModel", roomInventoryModel);
     engine.rootContext()->setContextProperty("serviceTypeModel", serviceTypeModel);
     engine.rootContext()->setContextProperty("userAccountModel", userAccountModel);
+    engine.rootContext()->setContextProperty("authenticationService", authService);
 
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
+    //const QUrl url(QStringLiteral("qrc:/dialogs/LoginDialog.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)

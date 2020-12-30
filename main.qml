@@ -4,7 +4,9 @@ import QtQuick.Controls.Material 2.3
 import QtQuick.Controls 2.5
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs 1.1
 import "qrc:/pages"
+import "qrc:/dialogs"
 
 ApplicationWindow  {
     title: qsTr("HMS - Hotel Management System 1.0")
@@ -12,6 +14,58 @@ ApplicationWindow  {
     height: 720
     visible: true
     id: window
+
+    MessageDialog {
+        id: loginFailDialog
+
+        title: "Đăng nhập"
+        text: "Tài khoản đăng nhập hoặc mật khẩu không chính xác!"
+        onAccepted: {
+        }
+        icon: StandardIcon.Critical
+    }
+
+    MessageDialog {
+        id: confirmLogoutDialog
+        width: 300
+        title: "Đăng xuất"
+        text: "Bạn thật sự muốn đăng xuất?"
+        standardButtons: StandardButton.Yes | StandardButton.No
+        onYes: {
+            authenticationService.logout()
+        }
+
+        icon: StandardIcon.Critical
+    }
+
+    Connections {
+        target: authenticationService
+        onLoggedOut: {
+            console.log("real logged out")
+            loginDialog.show()
+        }
+    }
+
+    LoginDialog {
+        id: loginDialog
+        visible: true
+        onLogin: function(username, password) {
+            if(authenticationService.login(username, password) <= 0) {
+                loginFailDialog.visible = true
+            } else {
+                accountFullNameLabel.text = authenticationService.currentUserName
+                accountAvatarImage.source = "image://avatar/" + authenticationService.currentUserId
+                close()
+                window.show()
+            }
+
+        }
+
+        onActiveChanged: {
+            if (active)
+                window.hide()
+        }
+    }
 
     SplitView {
         anchors.fill: parent
@@ -128,44 +182,62 @@ ApplicationWindow  {
                         width: parent.width
                         Button {
                             id: button1
-                            width: 200
-                            height: 60
+                            //                            width: 200
+                            //                            height: 60
                             Layout.fillWidth: true
                             Layout.fillHeight: true
                             font.pointSize: 13
                             font.bold: true
                             Label {
                                 id: pageName
-                                text: qsTr("Page name")
+                                text: qsTr("Hệ thống quản lý khách sạn")
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
                                 anchors.leftMargin: 30
                             }
                         }
                         Button {
-                            id: button
-                            width: 300
-                            height: 60
+                            id: userMenuButton
                             font.pointSize: 9
                             font.bold: false
                             font.family: "Arial"
-                            Layout.minimumWidth: 250
-                            Layout.fillWidth: false
+                            Layout.minimumWidth: accountFullNameLabel.contentWidth + 80
                             Layout.fillHeight: true
                             palette {
                                 //button: hovered? "blue" : "red"
                             }
+                            onClicked: contextMenu.open()
+                            Menu {
+                                id: contextMenu
+                                y: parent.height
+                                MenuItem { text: "Chỉnh sửa thông tin" }
+                                MenuItem { text: "Đổi mật khẩu" }
+                                MenuItem {
+                                    text: "Đăng xuất"
+                                    onTriggered: {
+                                        confirmLogoutDialog.visible = true
+                                    }
+                                }
+                            }
                             RowLayout {
+                                id: userMenuButtonLayout
                                 anchors.fill: parent
                                 spacing: 0
                                 Rectangle {
                                     width: 40
                                     height: 40
                                     color: "#0000ff"
+                                    border.color: "black"
+                                    border.width: 1
                                     Layout.margins: 10
+                                    Image {
+                                        anchors.fill: parent
+                                        id: accountAvatarImage
+                                    }
                                 }
                                 Label {
-                                    text: qsTr("Nguyen Van Nguyen Anh")
+                                    id: accountFullNameLabel
+                                    text: qsTr("Người dùng khách")
                                     Layout.leftMargin: 0
                                     Layout.margins: 10
                                     Layout.fillWidth: true

@@ -24,10 +24,12 @@ SOURCES += \
         Models/testmodel.cpp \
         Models/useraccountsqlmodel.cpp \
         Providers/avatarimageprovider.cpp \
+        Services/authenticationservice.cpp \
         main.cpp
 
 RESOURCES += qml.qrc \
-    icons.qrc
+    icons.qrc \
+    images.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -57,4 +59,5 @@ HEADERS += \
     Models/sqlquerymodel.h \
     Models/testmodel.h \
     Models/useraccountsqlmodel.h \
-    Providers/avatarimageprovider.h
+    Providers/avatarimageprovider.h \
+    Services/authenticationservice.h
