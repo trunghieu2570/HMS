@@ -14,6 +14,7 @@
 #include "Models/roomsqlmodel.h"
 #include "Models/servicetypesqlmodel.h"
 #include "Models/useraccountsqlmodel.h"
+#include "Models/roomcalendartablemodel.h"
 //Dto
 #include "Dto/roomtypedto.h"
 #include "Dto/inventorydto.h"
@@ -54,6 +55,9 @@ int main(int argc, char *argv[])
     serviceTypeModel->populate();
     auto *userAccountModel = new UserAccountSqlModel;
     userAccountModel->populate();
+    auto *roomCalendarModel = new RoomCalendarTableModel;
+    roomCalendarModel->populate(11,2020);
+
 
     AuthenticationService *authService = AuthenticationService::getInstance();
 
@@ -79,6 +83,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("serviceTypeModel", serviceTypeModel);
     engine.rootContext()->setContextProperty("userAccountModel", userAccountModel);
     engine.rootContext()->setContextProperty("authenticationService", authService);
+    engine.rootContext()->setContextProperty("roomCalendarModel", roomCalendarModel);
 
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));

@@ -113,6 +113,10 @@ ApplicationWindow  {
                 SidebarMenuItem {
                     _text: "Lịch phòng"
                     _src: "qrc:/icons/Icons/White/reservation_32px.png"
+                    onClicked: {
+                        stackLayout.currentIndex = 8
+                        pageName.text = qsTr("Lịch phòng")
+                    }
                 }
                 SidebarMenuItem {
                     _text: "Khách hàng"
@@ -388,6 +392,8 @@ ApplicationWindow  {
                     ServiceTypeListPage {}
 
                     UserAccountListPage {}
+
+                    RoomCalendarPage {}
 
                 }
 

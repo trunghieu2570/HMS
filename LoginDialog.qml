@@ -82,16 +82,19 @@ Window {
                 TextField {
                     id: usernameTextField
                     opacity: 0.8
+                    text: qsTr("thic")
                     Layout.fillWidth: true
                 }
                 Label {
                     color: "white"
                     text: qsTr("Mật khẩu:")
+
                     Layout.fillWidth: true
                 }
                 TextField {
                     id: passwordTextField
                     opacity: 0.8
+                    text: qsTr("thic")
                     Layout.fillWidth: true
                 }
             }

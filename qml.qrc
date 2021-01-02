@@ -14,6 +14,7 @@
         <file>AddServiceTypeDialog.qml</file>
         <file>AddUserAccountDialog.qml</file>
         <file>LoginDialog.qml</file>
+        <file>CreateReservationDialog.qml</file>
     </qresource>
     <qresource prefix="/pages">
         <file>InventoryListPage.qml</file>
@@ -22,5 +23,6 @@
         <file>RoomListPage.qml</file>
         <file>ServiceTypeListPage.qml</file>
         <file>UserAccountListPage.qml</file>
+        <file>RoomCalendarPage.qml</file>
     </qresource>
 </RCC>

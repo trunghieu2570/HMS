@@ -16,6 +16,7 @@ SOURCES += \
         Dto/useraccountdto.cpp \
         Models/clientsqlmodel.cpp \
         Models/inventorysqlmodel.cpp \
+        Models/roomcalendartablemodel.cpp \
         Models/roominventorysqlmodel.cpp \
         Models/roomsqlmodel.cpp \
         Models/roomtypesqlmodel.cpp \
@@ -52,6 +53,7 @@ HEADERS += \
     Dto/useraccountdto.h \
     Models/clientsqlmodel.h \
     Models/inventorysqlmodel.h \
+    Models/roomcalendartablemodel.h \
     Models/roominventorysqlmodel.h \
     Models/roomsqlmodel.h \
     Models/roomtypesqlmodel.h \

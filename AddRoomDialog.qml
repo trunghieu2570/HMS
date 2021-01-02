@@ -11,7 +11,7 @@ Window {
     property int _recordId: -1
     property alias _selectedInventoryItems: inventoryListView._selectedItems
     id: root
-    width: 400
+    width: 600
     height: 600
     visible: true
     title: qsTr("Add/Modify Room")
