@@ -41,12 +41,14 @@ QVariant RoomCalendarTableModel::data(const QModelIndex &index, int role) const
 
 void RoomCalendarTableModel::populate(int month, int year)
 {
+
     roomModel.setQuery("SELECT [id]"
                        ",[name]"
                        "FROM [room] WHERE deleted <> 1");
     vector.clear();
     vector.resize(rowCount() * columnCount());
-    qDebug() << rowCount();
+    QAbstractTableModel::beginResetModel();
+    //qDebug() << rowCount();
     for(int i = 0; i < rowCount(); i++) {
         QSqlQueryModel tmpModel;
         QSqlQuery mainQuery;
@@ -68,12 +70,14 @@ void RoomCalendarTableModel::populate(int month, int year)
                     map.insert("name", tmpModel.data(tmpModel.index(current, 2)).toString());
                     map.insert("check_in", tmpModel.data(tmpModel.index(current, 3)).toDate());
                     map.insert("check_out", tmpModel.data(tmpModel.index(current, 4)).toDate());
-                    qDebug() << vectorIndex(j,i);
+                    //qDebug() << vectorIndex(j,i);
                     vector[vectorIndex(j,i)] = map;
                 }
             }
         }
     }
+
+    QAbstractTableModel::endResetModel();
 
     //    for(int i = 0; i < rowCount(); i++) {
     //        qDebug() << roomModel.data(roomModel.index(i, 1));

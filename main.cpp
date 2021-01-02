@@ -15,6 +15,7 @@
 #include "Models/servicetypesqlmodel.h"
 #include "Models/useraccountsqlmodel.h"
 #include "Models/roomcalendartablemodel.h"
+#include "Models/usingservicemodel.h"
 //Dto
 #include "Dto/roomtypedto.h"
 #include "Dto/inventorydto.h"
@@ -57,6 +58,8 @@ int main(int argc, char *argv[])
     userAccountModel->populate();
     auto *roomCalendarModel = new RoomCalendarTableModel;
     roomCalendarModel->populate(11,2020);
+    auto usingServiceModel = new UsingServiceModel;
+    usingServiceModel->clear();
 
 
     AuthenticationService *authService = AuthenticationService::getInstance();
@@ -72,6 +75,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<RoomDto>("hms.dto", 1, 0, "RoomDto");
     qmlRegisterType<ServiceTypeDto>("hms.dto", 1, 0, "ServiceTypeDto");
     qmlRegisterType<UserAccountDto>("hms.dto", 1, 0, "UserAccountDto");
+    //qmlRegisterType<UsingServiceModel>("hms.dto", 1, 0, "UsingServiceModel");
 
     engine.addImageProvider("avatar", avatarProvider);
     engine.rootContext()->setContextProperty("myModel", new TestModel);
@@ -84,10 +88,11 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("userAccountModel", userAccountModel);
     engine.rootContext()->setContextProperty("authenticationService", authService);
     engine.rootContext()->setContextProperty("roomCalendarModel", roomCalendarModel);
+    engine.rootContext()->setContextProperty("usingServiceModel", usingServiceModel);
 
 
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    //const QUrl url(QStringLiteral("qrc:/dialogs/LoginDialog.qml"));
+    //const QUrl url(QStringLiteral("qrc:/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/dialogs/UseServiceDialog.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)

@@ -24,6 +24,7 @@ SOURCES += \
         Models/sqlquerymodel.cpp \
         Models/testmodel.cpp \
         Models/useraccountsqlmodel.cpp \
+        Models/usingservicemodel.cpp \
         Providers/avatarimageprovider.cpp \
         Services/authenticationservice.cpp \
         main.cpp
@@ -61,5 +62,6 @@ HEADERS += \
     Models/sqlquerymodel.h \
     Models/testmodel.h \
     Models/useraccountsqlmodel.h \
+    Models/usingservicemodel.h \
     Providers/avatarimageprovider.h \
     Services/authenticationservice.h

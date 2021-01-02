@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 TableView {
     id: tableView
     //properties
+    property bool _editable: true
     required property variant _model
     property int _height: 40
     signal editButtonClicked(int index)
@@ -58,6 +59,7 @@ TableView {
                     anchors.fill: parent
                     anchors.margins: 10
                     text: _model.headerData(modelData, Qt.Horizontal)
+                    font.bold: true
                     verticalAlignment: Text.AlignVCenter
                 }
             }
@@ -71,6 +73,7 @@ TableView {
                 anchors.fill: parent
                 anchors.margins: 10
                 text: qsTr("Hành động")
+                font.bold: true
                 verticalAlignment: Text.AlignVCenter
             }
         }
@@ -99,6 +102,7 @@ TableView {
                 Row {
                     anchors.fill: parent
                     Button {
+                        visible: _editable
                         //anchors.fill: parent
                         //anchors.margins: 10
                         anchors.verticalCenter: parent.verticalCenter
