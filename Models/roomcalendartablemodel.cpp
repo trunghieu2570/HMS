@@ -3,6 +3,7 @@
 #include <QSqlField>
 #include <QSqlResult>
 #include <QSqlRecord>
+#include <QDateTime>
 
 RoomCalendarTableModel::RoomCalendarTableModel(QObject *parent): QAbstractTableModel(parent)
 {
@@ -41,7 +42,8 @@ QVariant RoomCalendarTableModel::data(const QModelIndex &index, int role) const
 
 void RoomCalendarTableModel::populate(int month, int year)
 {
-
+    currentMonth = month;
+    currentYear = year;
     roomModel.setQuery("SELECT [id]"
                        ",[name]"
                        "FROM [room] WHERE deleted <> 1");
@@ -86,6 +88,38 @@ void RoomCalendarTableModel::populate(int month, int year)
     //             qDebug() <<  data(index(i,j));
     //        }
     //    }
+}
+
+int RoomCalendarTableModel::createReservation(int roomId, const QDate &checkin, const QDate &checkout, int clientId, qint64 roomPrice, qint64 discount, int state, const QString &note, int userAccountId)
+{
+    int r = -1;
+    QSqlQuery query;
+    query.prepare("INSERT INTO [dbo].[reservation]"
+                  "([room_id]"
+                  ",[check_in]"
+                  ",[check_out]"
+                  ",[client_id]"
+                  ",[room_price]"
+                  ",[discount]"
+                  ",[state]"
+                  ",[note]"
+                  ",[user_account_id]"
+                  ",[create_date])"
+            "VALUES (?,?,?,?,?,?,?,?,?,?)");
+    query.addBindValue(roomId);
+    query.addBindValue(checkin);
+    query.addBindValue(checkout);
+    query.addBindValue(clientId);
+    query.addBindValue(roomPrice);
+    query.addBindValue(discount);
+    query.addBindValue(state);
+    query.addBindValue(note);
+    query.addBindValue(userAccountId);
+    query.addBindValue(QDateTime::currentDateTime());
+    query.exec();
+    r = query.lastInsertId().toInt();
+    this->populate(currentMonth, currentYear);
+    return r;
 }
 
 int RoomCalendarTableModel::vectorIndex(int x, int y) const {

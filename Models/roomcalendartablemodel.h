@@ -15,6 +15,8 @@ class RoomCalendarTableModel : public QAbstractTableModel
 private:
     QSqlQueryModel roomModel;
     QVector<QVariantMap> vector;
+    int currentMonth = QDate::currentDate().month();
+    int currentYear = QDate::currentDate().year();
     int vectorIndex(int x, int y) const;
 
 public:
@@ -28,6 +30,7 @@ public:
     {
         return { {Qt::DisplayRole, "display"} };
     }
+    Q_INVOKABLE int createReservation(int roomId, const QDate &checkin, const QDate &checkout, int clientId, qint64 roomPrice, qint64 discount, int state, const QString &note, int userAccountId);
 };
 
 #endif // ROOMCALENDARTABLEMODEL_H

@@ -2,7 +2,6 @@ import QtQuick 2.0
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4 as Old
 import hms.dto 1.0
 import "qrc:/"
 
@@ -31,27 +30,27 @@ Window {
 
             columns: 4
 
-            Label {
-                id: label8
-                text: qsTr("ID")
-            }
+//            Label {
+//                id: label8
+//                text: qsTr("ID")
+//            }
 
-            TextField {
-                id: idTextField
-                text: {
-                    if(clientModel.rowCount() === 0)
-                        return "000000"
-                    let _temp = '' + (parseInt(clientModel.get(clientModel.rowCount() - 1).id) + 1)
-                    while (_temp.length < 6) {
-                        _temp = '0' + _temp;
-                    }
-                    return _temp;
-                }
+//            TextField {
+//                id: idTextField
+//                text: {
+//                    if(clientModel.rowCount() === 0)
+//                        return "000000"
+//                    let _temp = '' + (parseInt(clientModel.get(clientModel.rowCount() - 1).id) + 1)
+//                    while (_temp.length < 6) {
+//                        _temp = '0' + _temp;
+//                    }
+//                    return _temp;
+//                }
 
-                enabled: false
-                //hoverEnabled: false
-                Layout.columnSpan: 3
-            }
+//                enabled: false
+//                //hoverEnabled: false
+//                Layout.columnSpan: 3
+//            }
 
             Label {
                 id: label
@@ -187,7 +186,6 @@ Window {
                 onClicked: {
                     if (_mode == "add") {
                         let ok = clientModel.addRow(
-                                idTextField.text,
                                 fullNameTextField.text,
                                 birthdayDatePicker._selectedDate,
                                 genderComboBox.currentText === "Male",
@@ -204,7 +202,7 @@ Window {
                     }
                     if (_mode == "edit") {
                         let ok = clientModel.updateRow(
-                                idTextField.text,
+                                _recordId,
                                 fullNameTextField.text,
                                 birthdayDatePicker._selectedDate,
                                 genderComboBox.currentText === "Male",
@@ -236,7 +234,6 @@ Window {
     }
     Component.onCompleted: {
         if (_recordId >= 0) {
-            idTextField.text = clientModel.get(_recordId).id
             fullNameTextField.text = clientModel.get(_recordId).name
             birthdayDatePicker._selectedDate = clientModel.get(_recordId).birthday
             genderComboBox.currentIndex = clientModel.get(_recordId).gender ? 1 : 0

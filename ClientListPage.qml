@@ -14,7 +14,7 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Button {
-                text: qsTr("Add Item")
+                text: qsTr("Thêm khách hàng")
                 onClicked: {
                     var _com = Qt.createComponent("qrc:/dialogs/AddClientDialog.qml")
                     _win = _com.createObject(clientPage)

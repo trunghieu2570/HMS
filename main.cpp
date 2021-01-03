@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     auto *userAccountModel = new UserAccountSqlModel;
     userAccountModel->populate();
     auto *roomCalendarModel = new RoomCalendarTableModel;
-    roomCalendarModel->populate(11,2020);
+    roomCalendarModel->populate(1,2021);
     auto usingServiceModel = new UsingServiceModel;
     usingServiceModel->clear();
 
@@ -91,8 +91,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("usingServiceModel", usingServiceModel);
 
 
-    //const QUrl url(QStringLiteral("qrc:/main.qml"));
-    const QUrl url(QStringLiteral("qrc:/dialogs/UseServiceDialog.qml"));
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    //const QUrl url(QStringLiteral("qrc:/dialogs/UseServiceDialog.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)

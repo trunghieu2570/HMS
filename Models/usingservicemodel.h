@@ -19,6 +19,8 @@ public:
     Q_INVOKABLE bool addRow(int id, int serviceTypeId, const QString &serviceTypeName, qint64 price, const QString &content);
     Q_INVOKABLE bool removeRow(int row);
     Q_INVOKABLE bool clear();
+    Q_INVOKABLE bool saveToDb(int resId);
+    Q_INVOKABLE bool loadFromDb(int resId);
     QHash<int, QByteArray> roleNames() const override
     {
         return { {Qt::DisplayRole, "display"} };

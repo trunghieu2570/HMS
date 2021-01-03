@@ -110,7 +110,7 @@ Rectangle {
                 textRole: "text"
                 valueRole: "value"
                 Component.onCompleted: {
-                    currentIndex = indexOfValue(11)
+                    currentIndex = indexOfValue(1)
                 }
                 onActivated: {
                     roomCalendarModel.populate(selectMonthCbb.currentValue, yearTextField.text)
@@ -121,7 +121,7 @@ Rectangle {
                 id: yearTextField
                 Layout.preferredWidth: 80
                 placeholderText: qsTr("Năm")
-                text: qsTr("2020")
+                text: qsTr("2021")
                 validator: IntValidator{bottom: 2000; top: 2050;}
                 onEditingFinished: {
                     roomCalendarModel.populate(selectMonthCbb.currentValue, yearTextField.text)

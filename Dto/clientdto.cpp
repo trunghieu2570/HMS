@@ -90,16 +90,6 @@ void ClientDto::setComments(const QString &value)
     comments = value;
 }
 
-QString ClientDto::getId() const
-{
-    return id;
-}
-
-void ClientDto::setId(const QString &value)
-{
-    id = value;
-}
-
 ClientDto::ClientDto(QObject *parent): QObject(parent)
 {
     
