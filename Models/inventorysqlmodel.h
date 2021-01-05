@@ -6,9 +6,10 @@
 #include <QSqlQuery>
 #include <QSqlField>
 #include <Dto/inventorydto.h>
+#include "Models/sqlquerymodel.h"
 
 
-class InventorySqlModel : public QSqlQueryModel
+class InventorySqlModel : public SqlQueryModel
 {
     Q_OBJECT
 public:

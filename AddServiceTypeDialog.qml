@@ -12,7 +12,8 @@ Window {
     height: 400
     visible: true
     title: qsTr("Thêm/Sửa loại dịch vụ")
-    color: "floralwhite"
+    color: "#f8f8f8"
+    modality: Qt.WindowModal
 
     ColumnLayout {
         id: col

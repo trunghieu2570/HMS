@@ -139,19 +139,8 @@ TableView {
     delegate: Rectangle {
         id: cell
         implicitHeight: tableView._height
+        clip: true
         color: row % 2 != 0 ? "mintcream" : "white"
-        /*
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                console.log(row)
-                //tableView.selected = row
-                tableView.forceLayout()
-                tableView.focus = true
-            }
-
-        }
-        */
         Text {
             anchors.fill: parent
             anchors.margins: 10

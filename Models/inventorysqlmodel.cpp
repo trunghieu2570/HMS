@@ -1,7 +1,7 @@
 #include "inventorysqlmodel.h"
 
 
-InventorySqlModel::InventorySqlModel(QObject *parent)
+InventorySqlModel::InventorySqlModel(QObject *parent): SqlQueryModel(parent)
 {
 
 }
@@ -14,9 +14,9 @@ QVariant InventorySqlModel::headerData(int section, Qt::Orientation orientation,
         {
             switch (section) {
             case 0:
-                return tr("ID");
+                return tr("STT");
             case 1:
-                return tr("Name");
+                return tr("Tên");
             default:
                 return QVariant();
             }

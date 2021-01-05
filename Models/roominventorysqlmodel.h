@@ -5,8 +5,9 @@
 #include <QSqlRecord>
 #include <QSqlQuery>
 #include <QSqlField>
+#include "Models/sqlquerymodel.h"
 
-class RoomInventorySqlModel : public QSqlQueryModel
+class RoomInventorySqlModel : public SqlQueryModel
 {
     Q_OBJECT
 public:

@@ -1,12 +1,25 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import SortFilterProxyModel 0.2
 import "qrc:/"
 
 //Page: ServiceType List
 Rectangle {
     id: serviceTypePage
     property variant _win
+
+
+    SortFilterProxyModel {
+        id: serviceTypeProxyModel
+        sourceModel: serviceTypeModel
+        filters: RegExpFilter {
+            roleName: "name"
+            pattern: searchTextField.text
+            caseSensitivity: Qt.CaseInsensitive
+        }
+    }
+
     ColumnLayout {
         anchors.fill: parent
         RowLayout {
@@ -30,37 +43,39 @@ Rectangle {
                 Layout.fillWidth: true
             }
             TextField {
-
+                id: searchTextField
                 height: 30
                 selectByMouse: true
-                placeholderText: qsTr("Nhập từ khóa...")
+                placeholderText: qsTr("Tìm loại dịch vụ...")
             }
             Button {
-                Layout.maximumWidth: 60
-                text: qsTr("Tìm")
+                text: qsTr("Xóa bộ lọc")
+                onClicked: {
+                    searchTextField.text = qsTr("")
+                }
             }
         }
         HTableView {
             id: serviceTypeTable
-            _model: serviceTypeModel
+            _model: serviceTypeProxyModel
             columnWidthProvider: function(column) {
                 let columns = [100,200,serviceTypeTable.width - 400,0]
                 return columns[column]
             }
             onEditButtonClicked: function(index) {
                 var _com = Qt.createComponent("qrc:/dialogs/AddServiceTypeDialog.qml")
-                _win = _com.createObject(serviceTypePage, {_recordId: index, _mode: "edit"})
+                _win = _com.createObject(serviceTypePage, {_recordId: serviceTypeProxyModel.mapToSource(index), _mode: "edit"})
                 _win.show()
             }
             onDeleteButtonClicked: function(index) {
                 let _onAccepted = function() {
-                    serviceTypeModel.deleteRow(index)
+                    serviceTypeModel.deleteRow(serviceTypeProxyModel.mapToSource(index))
                     _mbwin.destroy()
                 }
                 let _mb = Qt.createComponent("qrc:/MessageBox.qml")
                 let _properties = {
-                    _message: "Do you really want to delete this item?",
-                    _title: "Confirm"
+                    _message: "Bạn thật sự muốn xóa loại dịch vụ này?",
+                    _title: "Xác nhận"
                 }
                 let _mbwin = _mb.createObject(serviceTypePage, _properties)
                 _mbwin.accepted.connect(_onAccepted)

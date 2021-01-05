@@ -17,6 +17,7 @@ Window {
     visible: true
     title: qsTr("Tạo phiếu dịch vụ")
     color: "floralwhite"
+    modality: Qt.WindowModal
 
     function calMoney() {
         let sum = 0

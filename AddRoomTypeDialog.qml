@@ -7,14 +7,13 @@ import hms.dto 1.0
 Window {
     property string _mode: "add"
     property int _recordId: -1
+    modality: Qt.WindowModal
     id: root
-    width: 800
-    height: 600
+    width: 600
+    height: 400
     visible: true
-    title: qsTr("Add/Modify Room Type")
-    color: "floralwhite"
-
-
+    title: qsTr("Thông tin loại phòng")
+    color: "#f8f8f8"
 
     ColumnLayout {
         id: col
@@ -27,7 +26,7 @@ Window {
 
             Label {
                 id: label
-                text: qsTr("Type Name: ")
+                text: qsTr("Tên loại phòng: ")
             }
 
             TextField {
@@ -43,7 +42,7 @@ Window {
             width: parent.width
 
             Label {
-                text: qsTr("Single beds: ")
+                text: qsTr("Số giường đơn: ")
             }
 
             TextField {
@@ -56,7 +55,7 @@ Window {
                 //placeholderText: qsTr("Text Field")
             }
             Label {
-                text: qsTr("Double beds: ")
+                text: qsTr("Số giường đôi: ")
             }
 
             TextField {
@@ -69,7 +68,7 @@ Window {
                 //placeholderText: qsTr("Text Field")
             }
             Label {
-                text: qsTr("Guests: ")
+                text: qsTr("Số khách: ")
             }
 
             TextField {
@@ -87,7 +86,7 @@ Window {
             width: parent.width
             spacing: 10
             Label {
-                text: qsTr("Description: ")
+                text: qsTr("Mô tả: ")
                 Layout.fillWidth: true
             }
             Flickable {
@@ -97,8 +96,6 @@ Window {
                 TextArea.flickable: TextArea {
                     selectByMouse: true
                     id: descriptionTextArea
-
-                    text: qsTr("jell")
                     wrapMode: TextEdit.Wrap
                     background: Rectangle {
                         color:  "white"
@@ -118,7 +115,7 @@ Window {
             width: parent.width
 
             Label {
-                text: qsTr("Price: ")
+                text: qsTr("Giá phòng: ")
             }
 
             TextField {
@@ -130,7 +127,7 @@ Window {
                 //placeholderText: qsTr("Text Field")
             }
             Label {
-                text: qsTr("Surcharge: ")
+                text: qsTr("Phụ thu: ")
             }
 
             TextField {
@@ -149,11 +146,7 @@ Window {
             }
 
             Button {
-                text: qsTr("Save and Create New")
-            }
-
-            Button {
-                text: qsTr("Save")
+                text: qsTr("Lưu")
                 onClicked: {
                     if (_mode == "add") {
                         let ok = roomTypeModel.addRow(
@@ -164,8 +157,10 @@ Window {
                                     descriptionTextArea.text,
                                     priceTextField.text,
                                     surchargeTextField.text)
-                        if (ok)
+                        if (ok) {
                             console.log("success")
+                            root.close()
+                        }
                     }
                     if (_mode == "edit") {
                         let ok = roomTypeModel.updateRow(
@@ -177,14 +172,16 @@ Window {
                                     descriptionTextArea.text,
                                     priceTextField.text,
                                     surchargeTextField.text)
-                        if (ok)
+                        if (ok) {
                             console.log("success")
+                            root.close()
+                        }
                     }
                 }
             }
 
             Button {
-                text: qsTr("Cancel")
+                text: qsTr("Đóng")
                 onClicked: {
                     root.close()
                 }

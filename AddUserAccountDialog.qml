@@ -16,6 +16,7 @@ Window {
     visible: true
     title: qsTr("Thêm/Sửa tài khoản")
     color: "floralwhite"
+    modality: Qt.WindowModal
 
     FileDialog {
         id: fileDialog

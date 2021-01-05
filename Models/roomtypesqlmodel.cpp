@@ -1,7 +1,7 @@
 #include "roomtypesqlmodel.h"
 
 
-RoomTypeSqlModel::RoomTypeSqlModel(QObject *parent)
+RoomTypeSqlModel::RoomTypeSqlModel(QObject *parent): SqlQueryModel(parent)
 {
 
 }
@@ -14,21 +14,21 @@ QVariant RoomTypeSqlModel::headerData(int section, Qt::Orientation orientation, 
         {
             switch (section) {
             case 0:
-                return tr("ID");
+                return tr("STT");
             case 1:
-                return tr("Name");
+                return tr("Loại phòng");
             case 2:
-                return tr("Single Beds");
+                return tr("Số giường đơn");
             case 3:
-                return tr("Double Beds");
+                return tr("Số giường đôi");
             case 4:
-                return tr("Price");
+                return tr("Giá");
             case 5:
-                return tr("Surcharge");
+                return tr("Phụ thu");
             case 6:
-                return tr("Guest");
+                return tr("Số khách");
             case 7:
-                return tr("Description");
+                return tr("Mô tả");
             default:
                 return QVariant();
             }
@@ -73,6 +73,18 @@ bool RoomTypeSqlModel::updateRow(int id, const QString &name, const QString &sbe
     return r;
 }
 
+bool RoomTypeSqlModel::deleteRow(int row)
+{
+    QSqlQuery _query;
+    _query.prepare("UPDATE [dbo].[room_type] SET deleted = ? WHERE id = ?");
+    _query.addBindValue(1);
+    auto record = this->record(row);
+    _query.addBindValue(record.field("id").value().toInt());
+    bool r = _query.exec();
+    if (r) this->populate();
+    return r;
+}
+
 void RoomTypeSqlModel::populate()
 {
      setQuery("SELECT [id]"
@@ -83,7 +95,7 @@ void RoomTypeSqlModel::populate()
               ",[surcharge]"
               ",[guests]"
               ",[description]"
-              "FROM [dbo].[room_type]");
+              "FROM [dbo].[room_type] WHERE deleted <> 1");
 }
 
 RoomTypeDto * RoomTypeSqlModel::get(int index)

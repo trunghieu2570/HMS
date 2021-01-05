@@ -13,7 +13,7 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Button {
-                text: qsTr("Add New Type")
+                text: qsTr("Thêm loại phòng")
                 onClicked: {
                     var _com = Qt.createComponent("qrc:/dialogs/AddRoomTypeDialog.qml")
                     _win = _com.createObject(roomTypePage)
@@ -21,23 +21,13 @@ Rectangle {
                 }
             }
             Button {
-                text: qsTr("Refresh")
+                text: qsTr("Làm mới")
                 onClicked: {
                     roomTypeModel.populate()
                 }
             }
             Rectangle {
                 Layout.fillWidth: true
-            }
-            TextField {
-
-                height: 30
-                selectByMouse: true
-                placeholderText: qsTr("Find some thing...")
-            }
-            Button {
-                Layout.maximumWidth: 60
-                text: qsTr("GO")
             }
         }
         HTableView {
@@ -59,8 +49,8 @@ Rectangle {
                 }
                 let _mb = Qt.createComponent("qrc:/MessageBox.qml")
                 let _properties = {
-                    _message: "Do you really want to delete this item?",
-                    _title: "Confirm"
+                    _message: "Bạn thật sự muốn xóa phần tử này?",
+                    _title: "Xác nhận"
                 }
                 let _mbwin = _mb.createObject(roomTypePage, _properties)
                 _mbwin.accepted.connect(_onAccepted)

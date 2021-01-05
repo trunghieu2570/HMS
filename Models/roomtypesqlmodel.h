@@ -31,6 +31,7 @@ public:
                                const QString &description = nullptr,
                                const QString &price = nullptr,
                                const QString &surcharge = nullptr);
+    Q_INVOKABLE bool deleteRow(int row);
     Q_INVOKABLE void populate();
     Q_INVOKABLE RoomTypeDto *get(int index);
     //Q_INVOKABLE QString getName

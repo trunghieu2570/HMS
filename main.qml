@@ -123,7 +123,7 @@ ApplicationWindow  {
                     _src: "qrc:/icons/Icons/White/customer_32px.png"
                     onClicked: {
                         stackLayout.currentIndex = 4
-                        pageName.text = qsTr("Guests")
+                        pageName.text = qsTr("Khách hàng")
                     }
                 }
                 SidebarMenuItem {
@@ -131,7 +131,7 @@ ApplicationWindow  {
                     _src: "qrc:/icons/Icons/White/customer_32px.png"
                     onClicked: {
                         stackLayout.currentIndex = 2
-                        pageName.text = qsTr("Room Types")
+                        pageName.text = qsTr("Các loại phòng")
                     }
                 }
                 SidebarMenuItem {
@@ -139,15 +139,15 @@ ApplicationWindow  {
                     _src: "qrc:/icons/Icons/White/customer_32px.png"
                     onClicked: {
                         stackLayout.currentIndex = 3
-                        pageName.text = qsTr("Inventory")
+                        pageName.text = qsTr("Danh sách đồ dùng")
                     }
                 }
                 SidebarMenuItem {
-                    _text: "Danh sách phòng"
+                    _text: "Phòng"
                     _src: "qrc:/icons/Icons/White/customer_32px.png"
                     onClicked: {
                         stackLayout.currentIndex = 5
-                        pageName.text = qsTr("Rooms")
+                        pageName.text = qsTr("Danh sách phòng")
                     }
                 }
                 SidebarMenuItem {

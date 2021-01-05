@@ -3,8 +3,10 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QSqlResult>
+#include <QSqlQuery>
+#include <QSqlField>
 
-RoomSqlModel::RoomSqlModel(QObject *parent)
+RoomSqlModel::RoomSqlModel(QObject *parent): SqlQueryModel(parent)
 {
 
 }
@@ -17,19 +19,19 @@ QVariant RoomSqlModel::headerData(int section, Qt::Orientation orientation, int 
         {
             switch (section) {
             case 0:
-                return tr("ID");
+                return tr("STT");
             case 1:
-                return tr("Room");
+                return tr("Tên phòng");
             case 2:
                 return tr("TypeId");
             case 3:
-                return tr("Type");
+                return tr("Loại phòng");
             case 4:
-                return tr("Need Clean");
+                return tr("Cần dọn dẹp");
             case 5:
-                return tr("Lock");
+                return tr("Ẩn");
             case 6:
-                return tr("Description");
+                return tr("Mô tả");
             default:
                 return QVariant();
             }
@@ -49,7 +51,7 @@ void RoomSqlModel::populate()
              ",[room].[description]"
              ",[room].[deleted]"
              "FROM [room]"
-             "LEFT JOIN [room_type] ON [room].[room_type_id] = [room_type].[id]");
+             "LEFT JOIN [room_type] ON [room].[room_type_id] = [room_type].[id] WHERE [room].[deleted] <> 1");
 }
 
 bool RoomSqlModel::addRoom(const QString &name, int roomTypeId, bool needClean, bool locked, const QString &description, const QList<int> inventoryItems)
@@ -151,4 +153,35 @@ RoomDto *RoomSqlModel::get(int index)
     r->setNeedClean(record.field("need_clean").value().toBool());
     r->setRoomTypeId(record.field("room_type_id").value().toInt());
     return r;
+}
+
+bool RoomSqlModel::deleteRoom(int row)
+{
+    QSqlQuery _query;
+    _query.prepare("UPDATE [dbo].[room] SET deleted = ? WHERE id = ?");
+    _query.addBindValue(1);
+    auto record = this->record(row);
+    _query.addBindValue(record.field("id").value().toInt());
+    bool r = _query.exec();
+    if (r) this->populate();
+    return r;
+}
+
+RoomTypeDto *RoomSqlModel::getType(int roomId)
+{
+    RoomTypeDto * rt = new RoomTypeDto;
+    QSqlQuery _query;
+    _query.prepare("SELECT rt.* FROM [dbo].[room_type] rt JOIN [dbo].[room] r on rt.id = r.room_type_id WHERE r.id = ?");
+    _query.addBindValue(roomId);
+    _query.exec();
+    while (_query.next()) {
+        rt->setDescription(_query.value("description").toString());
+        rt->setDoubleBeds(_query.value("double_beds").toInt());
+        rt->setGuests(_query.value("guests").toInt());
+        rt->setName(_query.value("name").toString());
+        rt->setPrice(_query.value("price").toLongLong());
+        rt->setSingleBeds(_query.value("single_beds").toInt());
+        rt->setSurcharge(_query.value("surcharge").toLongLong());
+    }
+    return rt;
 }

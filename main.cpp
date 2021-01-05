@@ -2,7 +2,6 @@
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QQuickView>
-#include "Models/testmodel.h"
 #include <QQmlContext>
 #include <QFont>
 #include "Database/hmsdatabase.h"
@@ -16,6 +15,7 @@
 #include "Models/useraccountsqlmodel.h"
 #include "Models/roomcalendartablemodel.h"
 #include "Models/usingservicemodel.h"
+#include "Models/reservationsqlmodel.h"
 //Dto
 #include "Dto/roomtypedto.h"
 #include "Dto/inventorydto.h"
@@ -23,7 +23,7 @@
 #include "Dto/roomdto.h"
 #include "Dto/servicetypedto.h"
 #include "Dto/useraccountdto.h"
-
+#include "Dto/reservationdto.h"
 //Provider
 #include "Providers/avatarimageprovider.h"
 
@@ -60,6 +60,8 @@ int main(int argc, char *argv[])
     roomCalendarModel->populate(1,2021);
     auto usingServiceModel = new UsingServiceModel;
     usingServiceModel->clear();
+//    auto reservationModel = new ReservationSqlModel();
+//    reservationModel->populate();
 
 
     AuthenticationService *authService = AuthenticationService::getInstance();
@@ -75,10 +77,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<RoomDto>("hms.dto", 1, 0, "RoomDto");
     qmlRegisterType<ServiceTypeDto>("hms.dto", 1, 0, "ServiceTypeDto");
     qmlRegisterType<UserAccountDto>("hms.dto", 1, 0, "UserAccountDto");
-    //qmlRegisterType<UsingServiceModel>("hms.dto", 1, 0, "UsingServiceModel");
+    qmlRegisterType<ReservationDto>("hms.dto", 1, 0, "ReservationDto");
 
     engine.addImageProvider("avatar", avatarProvider);
-    engine.rootContext()->setContextProperty("myModel", new TestModel);
     engine.rootContext()->setContextProperty("clientModel", clientModel);
     engine.rootContext()->setContextProperty("roomTypeModel", roomTypeModel);
     engine.rootContext()->setContextProperty("inventoryModel", inventoryModel);

@@ -9,32 +9,28 @@ Window {
     property int _recordId: -1
     id: root
     width: 400
-    height: 130
+    height: 180
     visible: true
-    title: qsTr("Add/Modify Inventory Item")
-    color: "floralwhite"
+    title: qsTr("Tạo/Sửa đồ dùng")
+    color: "#f8f8f8"
+    modality: Qt.WindowModal
 
     ColumnLayout {
         id: col
         anchors.fill: parent
-        anchors.margins: 20
+        anchors.margins: 15
         spacing: 15
-        RowLayout {
-            id: rowLayout1
-            width: parent.width
+        Label {
+            id: label
+            text: qsTr("Tên món đồ (*): ")
+        }
 
-            Label {
-                id: label
-                text: qsTr("Name: ")
-            }
-
-            TextField {
-                selectByMouse: true
-                Layout.fillWidth: true
-                id: nameTextField
-                maximumLength: 100
-                //placeholderText: qsTr("Text Field")
-            }
+        TextField {
+            selectByMouse: true
+            Layout.fillWidth: true
+            id: nameTextField
+            maximumLength: 100
+            //placeholderText: qsTr("Text Field")
         }
 
         RowLayout {
@@ -44,11 +40,11 @@ Window {
             }
 
             Button {
-                text: qsTr("Save")
+                text: qsTr("Lưu")
                 onClicked: {
                     if (_mode == "add") {
                         let ok = inventoryModel.addRow(
-                                    nameTextField.text)
+                                nameTextField.text)
                         if (ok) {
                             console.log("success")
                             root.close()
@@ -56,8 +52,8 @@ Window {
                     }
                     if (_mode == "edit") {
                         let ok = inventoryModel.updateRow(
-                                    _recordId,
-                                    nameTextField.text)
+                                _recordId,
+                                nameTextField.text)
                         if (ok) {
                             console.log("success")
                             root.close()
@@ -67,7 +63,7 @@ Window {
             }
 
             Button {
-                text: qsTr("Cancel")
+                text: qsTr("Đóng")
                 onClicked: {
                     root.close()
                 }

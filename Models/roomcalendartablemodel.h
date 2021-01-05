@@ -6,6 +6,7 @@
 #include <QAbstractTableModel>
 #include <QSqlQueryModel>
 #include <QDate>
+#include "Dto/reservationdto.h"
 
 class RoomCalendarTableModel : public QAbstractTableModel
 {
@@ -31,6 +32,8 @@ public:
         return { {Qt::DisplayRole, "display"} };
     }
     Q_INVOKABLE int createReservation(int roomId, const QDate &checkin, const QDate &checkout, int clientId, qint64 roomPrice, qint64 discount, int state, const QString &note, int userAccountId);
+    Q_INVOKABLE int updateReservation(int id, int roomId, const QDate &checkin, const QDate &checkout, int clientId, qint64 roomPrice, qint64 discount, int state, const QString &note, int userAccountId);
+    Q_INVOKABLE ReservationDto* getReservation(int id);
 };
 
 #endif // ROOMCALENDARTABLEMODEL_H

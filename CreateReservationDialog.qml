@@ -7,21 +7,28 @@ import "qrc:/"
 
 Window {
     property string _mode: "add"
-    property int _recordId: -1
+    property int resId: -1
     id: root
     width: 1200
     height: 700
     visible: true
     title: qsTr("Thông tin đặt phòng")
     color: "floralwhite"
+    modality: Qt.WindowModal
     property var _win
 
-    function calMoney() {
+    function changeServicePrice() {
         let sum = 0
         for (let i = 0; i < usingServiceModel.rowCount(); i++ ) {
             sum += usingServiceModel.data(usingServiceModel.index(i,3))
         }
-        priceTextField.text = sum
+        servicePriceTextField.text = sum
+    }
+
+    function changeTotalPrice() {
+        let ndate = checkOutDate._selectedDate.getDate() - checkInDate._selectedDate.getDate();
+        let sum = parseInt(priceTextField.text) * (ndate < 1 ? 1 : ndate) + parseInt(servicePriceTextField.text) - parseInt(discountTextField.text)
+        totalTextField.text = sum + " VND"
     }
 
     ListModel {
@@ -36,6 +43,10 @@ Window {
         }
         ListElement {
             value: 2
+            text: qsTr("Đã chiếm chỗ")
+        }
+        ListElement {
+            value: 3
             text: qsTr("Đã hủy bỏ")
         }
     }
@@ -54,36 +65,6 @@ Window {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
                 spacing: 10
-
-//                Label {
-//                    text: qsTr("Phiếu đặt phòng:")
-//                    font.bold: true
-//                }
-
-//                RowLayout {
-//                    width: parent.width
-
-//                    Label {
-//                        text: qsTr("Mã phiếu: ")
-//                    }
-
-//                    TextField {
-//                        id: idTextField
-//                        text: {
-//                            if(clientModel.rowCount() === 0)
-//                                return "000000"
-//                            let _temp = '' + (parseInt(clientModel.get(clientModel.rowCount() - 1).id) + 1)
-//                            while (_temp.length < 6) {
-//                                _temp = '0' + _temp;
-//                            }
-//                            return _temp;
-//                        }
-
-//                        enabled: false
-//                        color: "black"
-//                        font.bold: true
-//                    }
-//                }
 
                 Label {
                     text: qsTr("Trạng thái:")
@@ -127,6 +108,11 @@ Window {
                         Layout.fillWidth: true
                         id: chooseRoomCombobox
                         Layout.maximumWidth: 300
+                        onActivated: {
+                            console.log(currentValue)
+                            console.log(roomModel.getType(currentValue).price)
+                            priceTextField.text = roomModel.getType(currentValue).price
+                        }
                     }
                 }
 
@@ -145,6 +131,9 @@ Window {
                     HDatePicker {
                         Layout.fillWidth: true
                         id: checkInDate
+                        onTextChanged: {
+                            changeTotalPrice()
+                        }
                     }
 
                     Label {
@@ -154,6 +143,9 @@ Window {
                     HDatePicker {
                         Layout.fillWidth: true
                         id: checkOutDate
+                        onTextChanged: {
+                            changeTotalPrice()
+                        }
                     }
                 }
 
@@ -215,15 +207,7 @@ Window {
                         }
                         ScrollBar.vertical: ScrollBar  {}
                     }
-
-
-
                 }
-
-
-
-
-
             }
             ColumnLayout {
                 Layout.fillHeight: true
@@ -252,6 +236,7 @@ Window {
                     }
 
                     TextField {
+                        id: creatorUserTextField
                         text: authenticationService.currentUserName
                         enabled: false
                         color: "black"
@@ -291,7 +276,7 @@ Window {
                         _model: usingServiceModel
                         anchors.fill: parent
                         onContentHeightChanged: {
-                            calMoney()
+                            changeServicePrice()
                         }
                         columnWidthProvider: function(column) {
                             let columns = [0,0,200,100,hTableView.width - 400]
@@ -324,7 +309,10 @@ Window {
                         selectByMouse: true
                         validator: IntValidator {top: 1000000000; bottom: 0;}
                         text: qsTr("0")
-                        //placeholderText: qsTr("Text Field")
+                        onTextChanged: {
+                            changeTotalPrice()
+                        }
+
                     }
 
                     Label {
@@ -332,10 +320,14 @@ Window {
                     }
 
                     TextField {
+                        id: servicePriceTextField
                         Layout.fillWidth: true
+                        color: "black"
                         text: qsTr("0")
                         enabled: false
-                        //placeholderText: qsTr("Text Field")
+                        onTextChanged: {
+                            changeTotalPrice()
+                        }
                     }
                 }
 
@@ -352,6 +344,9 @@ Window {
                         validator: IntValidator {top: 1000000000; bottom: 0;}
                         text: qsTr("0")
                         selectByMouse: true
+                        onTextChanged: {
+                            changeTotalPrice()
+                        }
                         //placeholderText: qsTr("Text Field")
                     }
 
@@ -411,33 +406,42 @@ Window {
                 onClicked: {
                     if (_mode == "add") {
                         let returnId = roomCalendarModel.createReservation(
-                                    chooseRoomCombobox.currentValue,
-                                    checkInDate._selectedDate,
-                                    checkOutDate._selectedDate,
-                                    chooseClientCbb.currentValue,
-                                    parseInt(priceTextField.text),
-                                    parseInt(discountTextField.text),
-                                    stateCombobox.currentValue,
-                                    descriptionTextArea.text,
-                                    authenticationService.currentUserId
+                                chooseRoomCombobox.currentValue,
+                                checkInDate._selectedDate,
+                                checkOutDate._selectedDate,
+                                chooseClientCbb.currentValue,
+                                parseInt(priceTextField.text),
+                                parseInt(discountTextField.text),
+                                stateCombobox.currentValue,
+                                descriptionTextArea.text,
+                                authenticationService.currentUserId
                                 )
                         usingServiceModel.saveToDb(returnId)
                         console.log(returnId)
-                        if (returnId > 0)
+                        if (returnId > 0) {
                             console.log("success")
+                            root.close()
+                        }
                     }
                     if (_mode == "edit") {
-                        let ok = roomTypeModel.updateRow(
-                                _recordId,
-                                nameTextField.text,
-                                singleBedTextField.text,
-                                doubleBedTextField.text,
-                                guestTextField.text,
+                        let returnId = roomCalendarModel.updateReservation(
+                                resId,
+                                chooseRoomCombobox.currentValue,
+                                checkInDate._selectedDate,
+                                checkOutDate._selectedDate,
+                                chooseClientCbb.currentValue,
+                                parseInt(priceTextField.text),
+                                parseInt(discountTextField.text),
+                                stateCombobox.currentValue,
                                 descriptionTextArea.text,
-                                priceTextField.text,
-                                surchargeTextField.text)
-                        if (ok)
+                                authenticationService.currentUserId
+                                )
+                        usingServiceModel.saveToDb(returnId)
+                        console.log(returnId)
+                        if (returnId > 0) {
                             console.log("success")
+                            root.close()
+                        }
                     }
                 }
             }
@@ -453,15 +457,20 @@ Window {
     }
     Component.onCompleted: {
         usingServiceModel.clear()
-        usingServiceModel.loadFromDb(3)
-        if (_recordId >= 0) {
-            nameTextField.text = roomTypeModel.get(_recordId).name
-            singleBedTextField.text = roomTypeModel.get(_recordId).singleBeds
-            doubleBedTextField.text = roomTypeModel.get(_recordId).doubleBeds
-            guestTextField.text = roomTypeModel.get(_recordId).guests
-            priceTextField.text = roomTypeModel.get(_recordId).price
-            surchargeTextField.text = roomTypeModel.get(_recordId).surcharge
-            descriptionTextArea.text = roomTypeModel.get(_recordId).description
+        if (resId >= 0) {
+            usingServiceModel.loadFromDb(resId)
+            let res = roomCalendarModel.getReservation(resId)
+
+            chooseRoomCombobox.currentIndex = chooseRoomCombobox.indexOfValue(res.roomId)
+            checkInDate._selectedDate = res.checkin
+            checkOutDate._selectedDate = res.checkout
+            chooseClientCbb.currentIndex = chooseClientCbb.indexOfValue(res.clientId)
+            priceTextField.text = res.roomPrice
+            discountTextField.text = res.discount
+            stateCombobox.currentIndex = stateCombobox.indexOfValue(res.state)
+            descriptionTextArea.text = res.note
+            creatorUserTextField.text = res.userAccountName
+            console.log(chooseRoomCombobox.currentIndex)
         }
     }
 }

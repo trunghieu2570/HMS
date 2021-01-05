@@ -2,7 +2,7 @@
 
 
 
-RoomInventorySqlModel::RoomInventorySqlModel(QObject *parent)
+RoomInventorySqlModel::RoomInventorySqlModel(QObject *parent): SqlQueryModel(parent)
 {
 
 }
@@ -23,7 +23,7 @@ QList<int> RoomInventorySqlModel::getList()
     QList<int> list;
     list.clear();
     for(int i = 0; i < this->rowCount(); i++) {
-        list.append(this->data(this->index(i, 0)).toInt());
+        list.append(this->data(this->index(i, 0), Qt::DisplayRole).toInt());
     }
     return list;
 }

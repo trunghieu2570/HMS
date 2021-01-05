@@ -12,7 +12,7 @@ Window {
     signal rejected()
 
     flags: Qt.Dialog
-
+    modality: Qt.WindowModal
     id: root
     width: 400
     height: 130

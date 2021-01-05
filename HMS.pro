@@ -6,23 +6,26 @@ CONFIG += c++11
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+include (SortFilterProxyModel/SortFilterProxyModel.pri)
+
 SOURCES += \
         Database/hmsdatabase.cpp \
         Dto/clientdto.cpp \
         Dto/inventorydto.cpp \
+        Dto/reservationdto.cpp \
         Dto/roomdto.cpp \
         Dto/roomtypedto.cpp \
         Dto/servicetypedto.cpp \
         Dto/useraccountdto.cpp \
         Models/clientsqlmodel.cpp \
         Models/inventorysqlmodel.cpp \
+        Models/reservationsqlmodel.cpp \
         Models/roomcalendartablemodel.cpp \
         Models/roominventorysqlmodel.cpp \
         Models/roomsqlmodel.cpp \
         Models/roomtypesqlmodel.cpp \
         Models/servicetypesqlmodel.cpp \
         Models/sqlquerymodel.cpp \
-        Models/testmodel.cpp \
         Models/useraccountsqlmodel.cpp \
         Models/usingservicemodel.cpp \
         Providers/avatarimageprovider.cpp \
@@ -48,19 +51,20 @@ HEADERS += \
     Database/hmsdatabase.h \
     Dto/clientdto.h \
     Dto/inventorydto.h \
+    Dto/reservationdto.h \
     Dto/roomdto.h \
     Dto/roomtypedto.h \
     Dto/servicetypedto.h \
     Dto/useraccountdto.h \
     Models/clientsqlmodel.h \
     Models/inventorysqlmodel.h \
+    Models/reservationsqlmodel.h \
     Models/roomcalendartablemodel.h \
     Models/roominventorysqlmodel.h \
     Models/roomsqlmodel.h \
     Models/roomtypesqlmodel.h \
     Models/servicetypesqlmodel.h \
     Models/sqlquerymodel.h \
-    Models/testmodel.h \
     Models/useraccountsqlmodel.h \
     Models/usingservicemodel.h \
     Providers/avatarimageprovider.h \

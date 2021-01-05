@@ -7,7 +7,7 @@ TextField {
     property alias _selectedDate: calendar.selectedDate
     placeholderText: qsTr("Datepicker")
     onEditingFinished: {
-        calendar.selectedDate = Date.fromLocaleDateString(Qt.locale(), root.text, "d/M/yyyy")
+        calendar.selectedDate = Date.fromLocaleDateString(Qt.locale(), root.text, "dd/MM/yyyy")
     }
 
     Popup {
@@ -21,7 +21,7 @@ TextField {
         contentItem: Old.Calendar {
             id: calendar
             onSelectedDateChanged: function() {
-                root.text = calendar.selectedDate.toLocaleDateString(Qt.locale(), "d/M/yyyy")
+                root.text = calendar.selectedDate.toLocaleDateString(Qt.locale(), "dd/MM/yyyy")
             }
         }
         onClosed: {

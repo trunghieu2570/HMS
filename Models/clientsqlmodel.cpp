@@ -15,25 +15,25 @@ QVariant ClientSqlModel::headerData(int section, Qt::Orientation orientation, in
         {
             switch (section) {
             case 0:
-                return tr("Client ID");
+                return tr("Mã KH");
             case 1:
-                return tr("Name");
+                return tr("Họ tên");
             case 2:
-                return tr("Birthday");
+                return tr("Ngày sinh");
             case 3:
-                return tr("Gender");
+                return tr("Giới tính");
             case 4:
                 return tr("Email");
             case 5:
-                return tr("Address");
+                return tr("Địa chỉ");
             case 6:
-                return tr("Phone Number");
+                return tr("Số ĐT");
             case 7:
-                return tr("Nationality");
+                return tr("Quốc tich");
             case 8:
-                return tr("Identity Number");
+                return tr("Số CMND");
             case 9:
-                return tr("Comments");
+                return tr("Ghi chú");
             default:
                 return QVariant();
             }

@@ -67,7 +67,7 @@ void RoomCalendarTableModel::populate(int month, int year)
                 QDate checkout = tmpModel.data(tmpModel.index(current, 4)).toDate();
                 if(checkin <= date && date <= checkout) {
                     QVariantMap map;
-                    map.insert("id", tmpModel.data(tmpModel.index(current, 0)).toString());
+                    map.insert("id", tmpModel.data(tmpModel.index(current, 0)).toInt());
                     map.insert("state", tmpModel.data(tmpModel.index(current, 1)).toInt());
                     map.insert("name", tmpModel.data(tmpModel.index(current, 2)).toString());
                     map.insert("check_in", tmpModel.data(tmpModel.index(current, 3)).toDate());
@@ -120,6 +120,59 @@ int RoomCalendarTableModel::createReservation(int roomId, const QDate &checkin, 
     r = query.lastInsertId().toInt();
     this->populate(currentMonth, currentYear);
     return r;
+}
+
+int RoomCalendarTableModel::updateReservation(int id, int roomId, const QDate &checkin, const QDate &checkout, int clientId, qint64 roomPrice, qint64 discount, int state, const QString &note, int userAccountId)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE [dbo].[reservation]"
+                  "SET [room_id] = ?"
+                  ",[check_in] = ?"
+                  ",[check_out] = ?"
+                  ",[client_id] = ?"
+                  ",[room_price] = ? "
+                  ",[discount] = ?"
+                  ",[state] = ?"
+                  ",[note] = ?"
+                  ",[user_account_id] = ?"
+                  ",[create_date] = ? WHERE id = ?");
+    query.addBindValue(roomId);
+    query.addBindValue(checkin);
+    query.addBindValue(checkout);
+    query.addBindValue(clientId);
+    query.addBindValue(roomPrice);
+    query.addBindValue(discount);
+    query.addBindValue(state);
+    query.addBindValue(note);
+    query.addBindValue(userAccountId);
+    query.addBindValue(QDateTime::currentDateTime());
+    query.addBindValue(id);
+    query.exec();
+    this->populate(currentMonth, currentYear);
+    return id;
+}
+
+ReservationDto *RoomCalendarTableModel::getReservation(int id)
+{
+    ReservationDto* dto = new ReservationDto;
+    QSqlQuery q;
+    q.prepare("SELECT r.*, u.name FROM [reservation] r JOIN [user_account] u ON r.user_account_id = u.id WHERE r.id = ?");
+    q.addBindValue(id);
+    q.exec();
+    while (q.next()) {
+        dto->setCheckin(q.value("check_in").toDate());
+        dto->setCheckout(q.value("check_out").toDate());
+        dto->setClientId(q.value("client_id").toInt());
+        dto->setDiscount(q.value("discount").toLongLong());
+        dto->setCreateDate(q.value("create_date").toDateTime());
+        dto->setNote(q.value("note").toString());
+        dto->setRoomId(q.value("room_id").toInt());
+        dto->setRoomPrice(q.value("room_price").toLongLong());
+        dto->setState(q.value("state").toInt());
+        dto->setUserAccountId(q.value("user_account_id").toInt());
+        dto->setUserAccountName(q.value("name").toString());
+    }
+    return dto;
 }
 
 int RoomCalendarTableModel::vectorIndex(int x, int y) const {

@@ -1,12 +1,24 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import SortFilterProxyModel 0.2
 import "qrc:/"
 
 //Page: UserAccountListPage
 Rectangle {
     id: userAccountPage
     property variant _win
+
+    SortFilterProxyModel {
+        id: userAccountProxyModel
+        sourceModel: userAccountModel
+        filters: RegExpFilter {
+            roleName: "name"
+            pattern: searchTextField.text
+            caseSensitivity: Qt.CaseInsensitive
+        }
+    }
+
     ColumnLayout {
         anchors.fill: parent
         RowLayout {
@@ -30,39 +42,41 @@ Rectangle {
                 Layout.fillWidth: true
             }
             TextField {
-
+                id: searchTextField
                 height: 30
                 selectByMouse: true
-                placeholderText: qsTr("Nhập từ khóa...")
+                placeholderText: qsTr("Tìm kiếm theo tên")
             }
             Button {
-                Layout.maximumWidth: 60
-                text: qsTr("Tìm")
+                text: qsTr("Xóa bộ lọc")
+                onClicked: {
+                    searchTextField.text = qsTr("")
+                }
             }
         }
         HTableView {
             id: userAccountTable
             flickableDirection: Flickable.VerticalFlick
             _height: 80
-            _model: userAccountModel
+            _model: userAccountProxyModel
             columnWidthProvider: function(column) {
                 let columns = [0,80,200,200,120,0,0,0,0,0,userAccountTable.width - 700]
                 return columns[column]
             }
             onEditButtonClicked: function(index) {
                 var _com = Qt.createComponent("qrc:/dialogs/AddUserAccountDialog.qml")
-                _win = _com.createObject(userAccountPage, {_recordId: index, _mode: "edit"})
+                _win = _com.createObject(userAccountPage, {_recordId: userAccountProxyModel.mapToSource(index), _mode: "edit"})
                 _win.show()
             }
             onDeleteButtonClicked: function(index) {
                 let _onAccepted = function() {
-                    userAccountModel.deleteRow(index)
+                    userAccountModel.deleteRow(userAccountProxyModel.mapToSource(index))
                     _mbwin.destroy()
                 }
                 let _mb = Qt.createComponent("qrc:/MessageBox.qml")
                 let _properties = {
-                    _message: "Do you really want to delete this item?",
-                    _title: "Confirm"
+                    _message: "Bạn thật sự muốn xóa tài khoản này?",
+                    _title: "Xác nhận"
                 }
                 let _mbwin = _mb.createObject(userAccountPage, _properties)
                 _mbwin.accepted.connect(_onAccepted)

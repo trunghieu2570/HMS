@@ -1,19 +1,31 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import SortFilterProxyModel 0.2
 import "qrc:/"
 
 //Page: Inventory List
 Rectangle {
     id: inventoryPage
     property variant _win
+
+    SortFilterProxyModel {
+        id: inventoryProxyTable
+        sourceModel: inventoryModel
+        filters: RegExpFilter {
+            roleName: "name"
+            pattern: searchTextField.text
+            caseSensitivity: Qt.CaseInsensitive
+        }
+    }
+
     ColumnLayout {
         anchors.fill: parent
         RowLayout {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Button {
-                text: qsTr("Add Item")
+                text: qsTr("Thêm")
                 onClicked: {
                     var _com = Qt.createComponent("qrc:/dialogs/AddInventoryItemDialog.qml")
                     _win = _com.createObject(inventoryPage)
@@ -21,7 +33,7 @@ Rectangle {
                 }
             }
             Button {
-                text: qsTr("Refresh")
+                text: qsTr("Làm mới")
                 onClicked: {
                     inventoryModel.populate()
                 }
@@ -33,45 +45,36 @@ Rectangle {
                 id: searchTextField
                 height: 30
                 selectByMouse: true
-                placeholderText: qsTr("Find something...")
+                placeholderText: qsTr("Nhập tên đồ dùng...")
             }
             Button {
-                Layout.maximumWidth: 60
-                text: qsTr("Find")
-                onClicked: {
-                    inventoryModel.populate(searchTextField.text)
-                }
-            }
-            Button {
-                Layout.maximumWidth: 60
-                text: qsTr("Reset")
+                text: qsTr("Xóa bộ lọc")
                 onClicked: {
                     searchTextField.text = qsTr("")
-                    inventoryModel.populate(searchTextField.text)
                 }
             }
         }
         HTableView {
             id: inventoryTable
-            _model: inventoryModel
+            _model: inventoryProxyTable
             columnWidthProvider: function(column) {
                 let columns = [100,inventoryTable.width - 200]
                 return columns[column]
             }
             onEditButtonClicked: function(index) {
                 let _com = Qt.createComponent("qrc:/dialogs/AddInventoryItemDialog.qml")
-                _win = _com.createObject(inventoryPage, {_recordId: index, _mode: "edit"})
+                _win = _com.createObject(inventoryPage, {_recordId: inventoryProxyTable.mapToSource(index), _mode: "edit"})
                 _win.show()
             }
             onDeleteButtonClicked: function(index) {
                 let _onAccepted = function() {
-                    inventoryModel.deleteRow(index)
+                    inventoryModel.deleteRow(inventoryProxyTable.mapToSource(index))
                     _mbwin.destroy()
                 }
                 let _mb = Qt.createComponent("qrc:/MessageBox.qml")
                 let _properties = {
-                    _message: "Do you really want to delete this item?",
-                    _title: "Confirm"
+                    _message: "Bạn thật sự muốn xóa đồ dùng này?",
+                    _title: "Xác nhận"
                 }
                 let _mbwin = _mb.createObject(inventoryPage, _properties)
                 _mbwin.accepted.connect(_onAccepted)

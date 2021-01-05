@@ -10,11 +10,11 @@ Window {
     property int _recordId: -1
     id: root
     width: 600
-    height: 600
+    height: 500
     visible: true
-    title: qsTr("Add/Modify Guest")
-    color: "floralwhite"
-
+    title: qsTr("Thông tin khách hàng")
+    color: "#f8f8f8"
+    modality: Qt.WindowModal
 
 
     ColumnLayout {
@@ -27,34 +27,11 @@ Window {
             Layout.fillHeight: true
             Layout.fillWidth: true
             rows: 5
-
             columns: 4
-
-//            Label {
-//                id: label8
-//                text: qsTr("ID")
-//            }
-
-//            TextField {
-//                id: idTextField
-//                text: {
-//                    if(clientModel.rowCount() === 0)
-//                        return "000000"
-//                    let _temp = '' + (parseInt(clientModel.get(clientModel.rowCount() - 1).id) + 1)
-//                    while (_temp.length < 6) {
-//                        _temp = '0' + _temp;
-//                    }
-//                    return _temp;
-//                }
-
-//                enabled: false
-//                //hoverEnabled: false
-//                Layout.columnSpan: 3
-//            }
 
             Label {
                 id: label
-                text: qsTr("Full Name:")
+                text: qsTr("Tên đầy đủ (*):")
                 Layout.columnSpan: 1
             }
 
@@ -69,18 +46,18 @@ Window {
 
             Label {
                 id: label2
-                text: qsTr("Gender:")
+                text: qsTr("Giới tính (*):")
             }
 
             ComboBox {
                 id: genderComboBox
                 Layout.fillWidth: true
-                model: ["Female", "Male"]
+                model: ["Nữ", "Nam"]
             }
 
             Label {
                 id: label3
-                text: qsTr("Birthday: ")
+                text: qsTr("Ngày sinh (*): ")
 
             }
 
@@ -93,7 +70,7 @@ Window {
 
             Label {
                 id: label1
-                text: qsTr("Address:")
+                text: qsTr("Địa chỉ:")
                 Layout.rowSpan: 1
                 Layout.columnSpan: 1
             }
@@ -109,7 +86,7 @@ Window {
 
             Label {
                 id: label4
-                text: qsTr("Phone Number:")
+                text: qsTr("Số điện thoại:")
             }
 
             TextField {
@@ -131,7 +108,7 @@ Window {
 
             Label {
                 id: label6
-                text: qsTr("ID / Passport:")
+                text: qsTr("Số CMT:")
             }
 
             TextField {
@@ -142,7 +119,7 @@ Window {
 
             Label {
                 id: label7
-                text: qsTr("Nationality:")
+                text: qsTr("Quốc tịch:")
             }
 
             ComboBox {
@@ -153,19 +130,27 @@ Window {
 
             Label {
                 id: label9
-                text: qsTr("Comments:")
+                text: qsTr("Ghi chú:")
             }
 
-            TextArea {
-                id: commentTextArea
-                wrapMode: Text.Wrap
+            Flickable {
+                id: flickable1
                 Layout.columnSpan: 3
                 Layout.rowSpan: 1
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                background: Rectangle {
-                    color: "white"
+                TextArea.flickable: TextArea {
+                    selectByMouse: true
+                    id: commentTextArea
+                    wrapMode: TextEdit.Wrap
+                    background: Rectangle {
+                        color:  "white"
+                        border.color: commentTextArea.focus ? "mediumblue" : "darkgrey"
+                        border.width: commentTextArea.focus ? 2 : 1
+                    }
+
                 }
+                ScrollBar.vertical: ScrollBar  {}
             }
         }
 
@@ -178,17 +163,13 @@ Window {
             }
 
             Button {
-                text: qsTr("Save and Create New")
-            }
-
-            Button {
-                text: qsTr("Save")
+                text: qsTr("Lưu")
                 onClicked: {
                     if (_mode == "add") {
                         let ok = clientModel.addRow(
                                 fullNameTextField.text,
                                 birthdayDatePicker._selectedDate,
-                                genderComboBox.currentText === "Male",
+                                genderComboBox.currentText === "Nam",
                                 emailTextField.text,
                                 addressTextField.text,
                                 phoneNumberTextField.text,
@@ -205,7 +186,7 @@ Window {
                                 _recordId,
                                 fullNameTextField.text,
                                 birthdayDatePicker._selectedDate,
-                                genderComboBox.currentText === "Male",
+                                genderComboBox.currentText === "Nam",
                                 emailTextField.text,
                                 addressTextField.text,
                                 phoneNumberTextField.text,
@@ -221,7 +202,7 @@ Window {
             }
 
             Button {
-                text: qsTr("Cancel")
+                text: qsTr("Hủy")
                 onClicked: {
                     root.close()
                 }

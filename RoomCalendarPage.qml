@@ -101,6 +101,12 @@ Rectangle {
             }
             Button {
                 text: qsTr("Hôm nay")
+                onClicked: {
+                    selectMonthCbb.currentIndex = selectMonthCbb.indexOfValue(1)
+                    yearTextField.text = qsTr("2021")
+                    roomCalendarModel.populate()
+                    tableView.forceLayout()
+                }
             }
 
             ComboBox {
@@ -252,27 +258,32 @@ Rectangle {
                         id: cell
                         implicitHeight: tableView._height
                         property var name: tableView.model.data(tableView.model.index(row, column))["name"]
-                        property var id: tableView.model.data(tableView.model.index(row, column))["id"]
+                        property var m_id: tableView.model.data(tableView.model.index(row, column))["id"]
                         property var state: tableView.model.data(tableView.model.index(row, column))["state"]
                         property var check_in: tableView.model.data(tableView.model.index(row, column))["check_in"]
                         property var check_out: tableView.model.data(tableView.model.index(row, column))["check_out"]
-                        color: id ? legendModel.get(state).mcolor : "white"
+                        color: m_id ? legendModel.get(state).mcolor : "white"
                         Text {
                             anchors.centerIn: parent
                             color: "white"
                             anchors.margins: 10
-                            text: id ? legendModel.get(state).msymbol : ""
-                            property bool hovered: false
+                            text: m_id ? legendModel.get(state).msymbol : ""
                         }
                         MouseArea {
-                            visible: id !== undefined
+                            visible: m_id !== undefined
+                            onClicked: {
+                                var _com = Qt.createComponent("qrc:/dialogs/CreateReservationDialog.qml")
+                                _win = _com.createObject(roomCalendarPage, {resId: cell.m_id, _mode: "edit"})
+                                _win.show()
+                            }
+
                             anchors.fill: parent
                             hoverEnabled: true
                             ToolTip.delay: 1000
                             ToolTip.visible: containsMouse
-                            ToolTip.text: id ? name +
+                            ToolTip.text: m_id > 0 ? name +
                                                "<br/>" + check_in.toLocaleDateString("YYYYMMDD") +
-                                               "<br/>" + check_out.toLocaleDateString("YYYYMMDD") : ""
+                                               "<br/>" + check_out.toLocaleDateString("YYYYMMDD") : "."
                         }
 
 

@@ -14,8 +14,9 @@ Window {
     width: 600
     height: 600
     visible: true
-    title: qsTr("Add/Modify Room")
-    color: "floralwhite"
+    title: qsTr("Thông tin phòng")
+    color: "#f8f8f8"
+    modality: Qt.WindowModal
 
 
 
@@ -32,7 +33,7 @@ Window {
 
             Label {
                 id: label
-                text: qsTr("Room Name:")
+                text: qsTr("Tên phòng:")
             }
 
             TextField {
@@ -44,7 +45,7 @@ Window {
 
             Label {
                 id: label3
-                text: qsTr("Room type:")
+                text: qsTr("Loại phòng:")
             }
 
             ComboBox {
@@ -52,10 +53,6 @@ Window {
                 model: roomTypeModel
                 textRole: "name"
                 valueRole: "id"
-                onActivated: function(index) {
-                    console.log("seletect " + index)
-                    console.log(currentValue)
-                }
             }
 
             RowLayout {
@@ -64,13 +61,13 @@ Window {
 
                 CheckBox {
                     id: needCleanCheckBox
-                    text: qsTr("Need clean")
+                    text: qsTr("Cần dọn dẹp")
                     Layout.fillWidth: true
                 }
 
                 CheckBox {
                     id: lockRoomCheckBox
-                    text: qsTr("Hide room")
+                    text: qsTr("Ngưng sử dụng")
                     Layout.fillWidth: true
                 }
 
@@ -80,7 +77,7 @@ Window {
 
             Label {
                 id: label2
-                text: qsTr("Description:")
+                text: qsTr("Mô tả:")
             }
 
             Flickable {
@@ -103,7 +100,7 @@ Window {
 
             Label {
                 id: label1
-                text: qsTr("Room inventory items:")
+                text: qsTr("Chọn đồ dùng trong phòng:")
             }
 
             ListView {
@@ -165,11 +162,7 @@ Window {
             }
 
             Button {
-                text: qsTr("Save and Create New")
-            }
-
-            Button {
-                text: qsTr("Save")
+                text: qsTr("Lưu")
                 onClicked: {
                     if (_mode == "add") {
                         let ok = roomModel.addRoom(
@@ -202,7 +195,7 @@ Window {
             }
 
             Button {
-                text: qsTr("Cancel")
+                text: qsTr("Đóng")
                 onClicked: {
                     root.close()
                 }
