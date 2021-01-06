@@ -26,6 +26,7 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Button {
+                enabled: authenticationService.currentUserRole > 0
                 text: qsTr("Thêm mới")
                 onClicked: {
                     var _com = Qt.createComponent("qrc:/dialogs/AddServiceTypeDialog.qml")
@@ -58,6 +59,8 @@ Rectangle {
         HTableView {
             id: serviceTypeTable
             _model: serviceTypeProxyModel
+            _editable: authenticationService.currentUserRole > 0
+            _removable: authenticationService.currentUserRole > 0
             columnWidthProvider: function(column) {
                 let columns = [100,200,serviceTypeTable.width - 400,0]
                 return columns[column]

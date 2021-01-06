@@ -20,7 +20,7 @@ QVariant UserAccountSqlModel::headerData(int section, Qt::Orientation orientatio
         {
             switch (section) {
             case 0:
-                return tr("STT");
+                return tr("Mã NV");
             case 1:
                 return tr("Ảnh");
             case 2:
@@ -62,7 +62,7 @@ void UserAccountSqlModel::populate()
              ",[address]"
              ",[phone_number]"
              ",[comments]"
-             "FROM [dbo].[user_account]");
+             "FROM [dbo].[user_account] WHERE deleted <> 1");
 }
 
 bool UserAccountSqlModel::add(const QUrl &avatar, const QString &username, const QString &pass, const QString &name, int role, bool gender, const QDate &birthday, const QString &email, const QString &address, const QString &phoneNumber)
@@ -135,6 +135,14 @@ bool UserAccountSqlModel::update(int id, const QUrl &avatar, const QString &pass
         qDebug() << _query.exec();
 
     }
+    if (pass != "")
+    {
+        _query.prepare("UPDATE [dbo].[user_account] SET [pass] = HASHBYTES('SHA2_256', ?) WHERE id = ?");
+        _query.addBindValue(pass);
+        _query.addBindValue(id);
+        qDebug() << _query.exec();
+    }
+
     this->populate();
     return true;
 }
@@ -153,4 +161,16 @@ UserAccountDto *UserAccountSqlModel::get(int index)
     user->setRole(_record.field("role").value().toInt());
     user->setUsername(_record.field("username").value().toString());
     return user;
+}
+
+bool UserAccountSqlModel::remove(int index)
+{
+    QSqlQuery _query;
+    _query.prepare("UPDATE [dbo].[user_account] SET deleted = ? WHERE id = ?");
+    _query.addBindValue(1);
+    auto record = this->record(index);
+    _query.addBindValue(record.field("id").value().toInt());
+    bool r = _query.exec();
+    if (r) this->populate();
+    return r;
 }

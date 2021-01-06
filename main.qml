@@ -103,66 +103,66 @@ ApplicationWindow  {
                     _src: "qrc:/icons/Icons/White/home_32px.png"
                 }
                 SidebarMenuItem {
-                    _text: "Đặt phòng nhanh"
-                    _src: "qrc:/icons/Icons/White/booking_32px.png"
-                }
-                SidebarMenuItem {
-                    _text: "Các dịch vụ"
-                    _src: "qrc:/icons/Icons/White/service_32px.png"
-                }
-                SidebarMenuItem {
                     _text: "Lịch phòng"
                     _src: "qrc:/icons/Icons/White/reservation_32px.png"
                     onClicked: {
-                        stackLayout.currentIndex = 8
+                        stackLayout.currentIndex = 1
                         pageName.text = qsTr("Lịch phòng")
+                    }
+                }
+                SidebarMenuItem {
+                    _text: "Dịch vụ"
+                    _src: "qrc:/icons/Icons/White/service_32px.png"
+                    onClicked: {
+                        stackLayout.currentIndex = 2
+                        pageName.text = qsTr("Danh sách dịch vụ")
                     }
                 }
                 SidebarMenuItem {
                     _text: "Khách hàng"
                     _src: "qrc:/icons/Icons/White/customer_32px.png"
                     onClicked: {
-                        stackLayout.currentIndex = 4
+                        stackLayout.currentIndex = 3
                         pageName.text = qsTr("Khách hàng")
                     }
                 }
                 SidebarMenuItem {
-                    _text: "Loại phòng"
-                    _src: "qrc:/icons/Icons/White/customer_32px.png"
-                    onClicked: {
-                        stackLayout.currentIndex = 2
-                        pageName.text = qsTr("Các loại phòng")
-                    }
-                }
-                SidebarMenuItem {
-                    _text: "Đồ dùng"
-                    _src: "qrc:/icons/Icons/White/customer_32px.png"
-                    onClicked: {
-                        stackLayout.currentIndex = 3
-                        pageName.text = qsTr("Danh sách đồ dùng")
-                    }
-                }
-                SidebarMenuItem {
                     _text: "Phòng"
-                    _src: "qrc:/icons/Icons/White/customer_32px.png"
+                    _src: "qrc:/icons/Icons/White/room_32px.png"
                     onClicked: {
-                        stackLayout.currentIndex = 5
+                        stackLayout.currentIndex = 4
                         pageName.text = qsTr("Danh sách phòng")
                     }
                 }
                 SidebarMenuItem {
-                    _text: "Loại dịch vụ"
-                    _src: "qrc:/icons/Icons/White/customer_32px.png"
+                    _text: "Đồ dùng"
+                    _src: "qrc:/icons/Icons/White/open_box_32px.png"
+                    onClicked: {
+                        stackLayout.currentIndex = 5
+                        pageName.text = qsTr("Danh sách đồ dùng")
+                    }
+                }
+                SidebarMenuItem {
+                    _text: "Loại phòng"
+                    _src: "qrc:/icons/Icons/White/hotel_bed_32px.png"
                     onClicked: {
                         stackLayout.currentIndex = 6
+                        pageName.text = qsTr("Các loại phòng")
+                    }
+                }
+                SidebarMenuItem {
+                    _text: "Loại dịch vụ"
+                    _src: "qrc:/icons/Icons/White/view_details_32px.png"
+                    onClicked: {
+                        stackLayout.currentIndex = 7
                         pageName.text = qsTr("Danh sách loại dịch vụ")
                     }
                 }
                 SidebarMenuItem {
                     _text: "Tài khoản"
-                    _src: "qrc:/icons/Icons/White/customer_32px.png"
+                    _src: "qrc:/icons/Icons/White/male_user_32px.png"
                     onClicked: {
-                        stackLayout.currentIndex = 7
+                        stackLayout.currentIndex = 8
                         pageName.text = qsTr("Quản lý tài khoản nhân viên")
                     }
                 }
@@ -214,8 +214,8 @@ ApplicationWindow  {
                             Menu {
                                 id: contextMenu
                                 y: parent.height
-                                MenuItem { text: "Chỉnh sửa thông tin" }
-                                MenuItem { text: "Đổi mật khẩu" }
+                                //MenuItem { text: "Chỉnh sửa thông tin" }
+                                //MenuItem { text: "Đổi mật khẩu" }
                                 MenuItem {
                                     text: "Đăng xuất"
                                     onTriggered: {
@@ -230,10 +230,14 @@ ApplicationWindow  {
                                 Rectangle {
                                     width: 40
                                     height: 40
-                                    color: "#0000ff"
+                                    color: "grey"
                                     border.color: "black"
                                     border.width: 1
                                     Layout.margins: 10
+                                    Image {
+                                        anchors.fill: parent
+                                        source: "qrc:/icons/Icons/White/user_64px.png"
+                                    }
                                     Image {
                                         anchors.fill: parent
                                         id: accountAvatarImage
@@ -256,144 +260,23 @@ ApplicationWindow  {
                     Layout.margins: 40
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    //Page1
-                    Rectangle {
-                        Layout.margins: 40
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
-                        ColumnLayout {
-                            anchors.fill: parent
-                            RowLayout {
-                                Layout.fillHeight: true
-                                Layout.fillWidth: true
-                                ComboBox {
-                                    height: 30
-                                    width: 200
-                                    //selectByMouse: true
-                                    //placeholderText: qsTr("Search")
-                                }
-                                TextField {
-                                    height: 30
-                                    Layout.maximumWidth: 100
-                                    selectByMouse: true
-                                    placeholderText: qsTr("Year")
-                                    text: qsTr("2020")
-                                }
-                                Button {
-                                    Layout.maximumWidth: 50
-                                    text: qsTr("GO")
-                                }
-                                Rectangle {
-                                    Layout.fillWidth: true
-                                }
-                                TextField {
-                                    height: 30
-                                    selectByMouse: true
-                                    placeholderText: qsTr("Search")
-                                }
-                                Button {
-                                    Layout.maximumWidth: 60
-                                    text: qsTr("Search")
-                                }
-                            }
-                            TableView {
-                                Layout.fillHeight: true
-                                Layout.fillWidth: true
-                                columnSpacing: 1
-                                rowSpacing: 1
-                                clip: true
-                                topMargin: columnsHeader.implicitHeight
-                                model: myModel
-                                delegate: Rectangle {
-                                    implicitWidth: 100
-                                    implicitHeight: 50
-                                    Text {
-                                        text: display
-                                    }
-                                }
-
-                                Row {
-                                    id: columnsHeader
-                                    Repeater {
-                                        model: 3
-                                        Rectangle {
-                                            width: 100; height: 40
-                                            border.width: 1
-                                            color: "yellow"
-                                        }
-                                    }
-                                }
-                                ScrollIndicator.horizontal: ScrollIndicator { }
-                                ScrollIndicator.vertical: ScrollIndicator { }
-                            }
-                        }
-                    }
-
-                    Rectangle {
-                        id: r1
-                        ColumnLayout {
-                            anchors.fill: parent
-                            RowLayout {
-                                Layout.fillHeight: true
-                                Layout.fillWidth: true
-                                ComboBox {
-                                    height: 30
-                                    width: 200
-                                    //selectByMouse: true
-                                    //placeholderText: qsTr("Search")
-                                }
-                                TextField {
-                                    height: 30
-                                    Layout.maximumWidth: 100
-                                    selectByMouse: true
-                                    placeholderText: qsTr("Year")
-                                    text: qsTr("2020")
-                                }
-                                Button {
-                                    Layout.maximumWidth: 50
-                                    text: qsTr("GO")
-                                }
-                                Rectangle {
-                                    Layout.fillWidth: true
-                                }
-                                TextField {
-                                    height: 30
-                                    selectByMouse: true
-                                    placeholderText: qsTr("Search")
-                                }
-                                Button {
-                                    Layout.maximumWidth: 60
-                                    text: qsTr("Search")
-                                }
-                            }
-                            HTableView {
-                                id: clientTable
-                                _model: clientModel
-                            }
-                        }
-                    }
-                    RoomTypeListPage {
-
-                    }
-
-
-                    InventoryListPage {
-
-                    }
-
-                    ClientListPage {
-
-                    }
-
-                    RoomListPage {
-
-                    }
-
-                    ServiceTypeListPage {}
-
-                    UserAccountListPage {}
-
+                    Rectangle {}
+                    //1
                     RoomCalendarPage {}
+                    //2
+                    ServiceListPage {}
+                    //3
+                    ClientListPage {}
+                    //4
+                    RoomListPage {}
+                    //5
+                    InventoryListPage {}
+                    //6
+                    RoomTypeListPage {}
+                    //7
+                    ServiceTypeListPage {}
+                    //8
+                    UserAccountListPage {}
 
                 }
 

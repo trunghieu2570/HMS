@@ -25,6 +25,7 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Button {
+                enabled: authenticationService.currentUserRole > 0
                 text: qsTr("Thêm")
                 onClicked: {
                     var _com = Qt.createComponent("qrc:/dialogs/AddInventoryItemDialog.qml")
@@ -57,6 +58,8 @@ Rectangle {
         HTableView {
             id: inventoryTable
             _model: inventoryProxyTable
+            _editable: authenticationService.currentUserRole > 0
+            _removable: authenticationService.currentUserRole > 0
             columnWidthProvider: function(column) {
                 let columns = [100,inventoryTable.width - 200]
                 return columns[column]

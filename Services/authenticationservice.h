@@ -6,9 +6,9 @@
 class AuthenticationService : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int currentUserId READ getCurrentUserId NOTIFY stateChanged)
-    Q_PROPERTY(int currentUserRole READ getCurrentUserRole)
-    Q_PROPERTY(QString currentUserName READ getCurrentUserName)
+    Q_PROPERTY(int currentUserId READ getCurrentUserId NOTIFY userChanged)
+    Q_PROPERTY(int currentUserRole READ getCurrentUserRole NOTIFY userChanged)
+    Q_PROPERTY(QString currentUserName READ getCurrentUserName NOTIFY userChanged)
 private:
     static AuthenticationService* instance;
     int currentUserId = -1;
@@ -27,7 +27,7 @@ public:
     QString getCurrentUserName() const;
 
 signals:
-    void stateChanged();
+    void userChanged();
     void loggedOut();
 };
 

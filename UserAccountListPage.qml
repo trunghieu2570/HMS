@@ -25,6 +25,7 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Button {
+                enabled: authenticationService.currentUserRole > 1
                 text: qsTr("Thêm mới")
                 onClicked: {
                     var _com = Qt.createComponent("qrc:/dialogs/AddUserAccountDialog.qml")
@@ -56,6 +57,8 @@ Rectangle {
         }
         HTableView {
             id: userAccountTable
+            _editable: authenticationService.currentUserRole > 1
+            _removable: authenticationService.currentUserRole > 1
             flickableDirection: Flickable.VerticalFlick
             _height: 80
             _model: userAccountProxyModel
@@ -70,7 +73,7 @@ Rectangle {
             }
             onDeleteButtonClicked: function(index) {
                 let _onAccepted = function() {
-                    userAccountModel.deleteRow(userAccountProxyModel.mapToSource(index))
+                    userAccountModel.remove(userAccountProxyModel.mapToSource(index))
                     _mbwin.destroy()
                 }
                 let _mb = Qt.createComponent("qrc:/MessageBox.qml")

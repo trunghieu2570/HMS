@@ -82,8 +82,10 @@ Window {
                 TextField {
                     id: usernameTextField
                     opacity: 0.8
-                    text: qsTr("thic")
+                    text: qsTr("tgd")
+                    selectByMouse: true
                     Layout.fillWidth: true
+
                 }
                 Label {
                     color: "white"
@@ -94,8 +96,10 @@ Window {
                 TextField {
                     id: passwordTextField
                     opacity: 0.8
-                    text: qsTr("thic")
+                    text: qsTr("tgd")
                     Layout.fillWidth: true
+                    selectByMouse: true
+                    echoMode: TextInput.Password
                 }
             }
 

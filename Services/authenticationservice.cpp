@@ -48,7 +48,8 @@ int AuthenticationService::login(const QString username, const QString password)
         currentUserRole = query.record().field("role").value().toInt();
         currentUserName = query.record().field("name").value().toString();
     }
-    qDebug() << currentUserId;
+    qDebug() << currentUserRole;
+    userChanged();
     return currentUserId;
 }
 

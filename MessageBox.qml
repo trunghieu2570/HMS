@@ -51,7 +51,7 @@ Window {
             }
 
             Button {
-                text: qsTr("Cancel")
+                text: qsTr("Hủy")
                 onClicked: {
                     rejected()
                     root.close()

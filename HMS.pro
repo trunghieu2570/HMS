@@ -24,6 +24,7 @@ SOURCES += \
         Models/roominventorysqlmodel.cpp \
         Models/roomsqlmodel.cpp \
         Models/roomtypesqlmodel.cpp \
+        Models/servicesqlmodel.cpp \
         Models/servicetypesqlmodel.cpp \
         Models/sqlquerymodel.cpp \
         Models/useraccountsqlmodel.cpp \
@@ -63,6 +64,7 @@ HEADERS += \
     Models/roominventorysqlmodel.h \
     Models/roomsqlmodel.h \
     Models/roomtypesqlmodel.h \
+    Models/servicesqlmodel.h \
     Models/servicetypesqlmodel.h \
     Models/sqlquerymodel.h \
     Models/useraccountsqlmodel.h \

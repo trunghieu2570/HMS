@@ -33,6 +33,7 @@ public:
                             const QString &address,
                             const QString &phoneNumber);
     Q_INVOKABLE UserAccountDto* get(int index);
+    Q_INVOKABLE bool remove(int index);
 };
 
 #endif // USERACCOUNTSQLMODEL_H

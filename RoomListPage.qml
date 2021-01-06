@@ -34,6 +34,7 @@ Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
             Button {
+                enabled: authenticationService.currentUserRole > 0
                 text: qsTr("Tạo phòng")
                 onClicked: {
                     var _com = Qt.createComponent("qrc:/dialogs/AddRoomDialog.qml")
@@ -76,6 +77,8 @@ Rectangle {
         HTableView {
             id: roomTable
             _model: roomProxyModel
+            _editable: authenticationService.currentUserRole > 0
+            _removable: authenticationService.currentUserRole > 0
             columnWidthProvider: function(column) {
                 let columns = [0,100,0,200,0,0,roomTable.width - 400]
                 return columns[column]

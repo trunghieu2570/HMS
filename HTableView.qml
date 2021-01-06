@@ -6,6 +6,8 @@ TableView {
     id: tableView
     //properties
     property bool _editable: true
+    property bool _removable: true
+    property int _actionWidth: 100
     required property variant _model
     property int _height: 40
     signal editButtonClicked(int index)
@@ -67,8 +69,9 @@ TableView {
 
         Button {
             id: actionHeader
-            width: 100
+            width: _actionWidth
             height: 40
+            clip: true
             Label {
                 anchors.fill: parent
                 anchors.margins: 10
@@ -120,6 +123,7 @@ TableView {
                     Button {
                         //anchors.fill: parent
                         //anchors.margins: 10
+                        visible: _removable
                         anchors.verticalCenter: parent.verticalCenter
                         palette {
                             button: "transparent"

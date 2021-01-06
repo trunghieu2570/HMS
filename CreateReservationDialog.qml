@@ -379,12 +379,7 @@ Window {
             width: parent.width
 
             Button {
-                text: qsTr("Check in")
-                onClicked: {
-                    root.close()
-                }
-            }
-            Button {
+                enabled: false
                 text: qsTr("Xuất hóa đơn")
                 onClicked: {
                     root.close()

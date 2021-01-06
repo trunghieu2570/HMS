@@ -19,7 +19,7 @@ QVariant RoomSqlModel::headerData(int section, Qt::Orientation orientation, int 
         {
             switch (section) {
             case 0:
-                return tr("STT");
+                return tr("Mã");
             case 1:
                 return tr("Tên phòng");
             case 2:

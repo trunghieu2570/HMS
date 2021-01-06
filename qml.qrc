@@ -26,5 +26,6 @@
         <file>ServiceTypeListPage.qml</file>
         <file>UserAccountListPage.qml</file>
         <file>RoomCalendarPage.qml</file>
+        <file>ServiceListPage.qml</file>
     </qresource>
 </RCC>

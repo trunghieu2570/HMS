@@ -15,7 +15,7 @@ QVariant ServiceTypeSqlModel::headerData(int section, Qt::Orientation orientatio
         {
             switch (section) {
             case 0:
-                return tr("STT");
+                return tr("Mã");
             case 1:
                 return tr("Loại dịch vụ");
             case 2:

@@ -221,10 +221,19 @@ Rectangle {
                                 height: 30
                                 color: "white"
                                 Label {
-                                    anchors.centerIn: parent
-                                    anchors.margins: 10
-                                    text: tableView.model.headerData(modelData, Qt.Horizontal)
+                                    property variant dayNum: tableView.model.headerData(modelData, Qt.Horizontal)
+                                    anchors.fill: parent
+                                    //anchors.margins: 10
+                                    text: dayNum
                                     verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        ToolTip.delay: 800
+                                        ToolTip.visible: containsMouse
+                                        ToolTip.text: (new Date(yearTextField.text, selectMonthCbb.currentIndex, parent.dayNum)).toLocaleDateString(Qt.locale("vi_vn"))
+                                    }
                                 }
                             }
 
@@ -239,6 +248,7 @@ Rectangle {
                         Repeater {
                             model: tableView.rows > 0 ? tableView.rows : 1
                             Rectangle {
+
                                 property var current: tableView.model.headerData(modelData, Qt.Vertical)
                                 //visible: tableView.rowHeightProvider(modelData) !== 0
                                 width: 100
@@ -267,7 +277,7 @@ Rectangle {
                             anchors.centerIn: parent
                             color: "white"
                             anchors.margins: 10
-                            text: m_id ? legendModel.get(state).msymbol : ""
+                            text: m_id ? legendModel.get(cell.state).msymbol : ""
                         }
                         MouseArea {
                             visible: m_id !== undefined

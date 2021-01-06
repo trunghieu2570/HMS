@@ -12,5 +12,10 @@
         <file>Icons/Black/trash_32px.png</file>
         <file>Icons/White/user_32px.png</file>
         <file>Icons/White/user_64px.png</file>
+        <file>Icons/White/hotel_bed_32px.png</file>
+        <file>Icons/White/male_user_32px.png</file>
+        <file>Icons/White/open_box_32px.png</file>
+        <file>Icons/White/room_32px.png</file>
+        <file>Icons/White/view_details_32px.png</file>
     </qresource>
 </RCC>
