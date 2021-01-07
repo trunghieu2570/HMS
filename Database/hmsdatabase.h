@@ -10,6 +10,7 @@ class HMSDatabase
 private:
     static HMSDatabase *_instance;
     QSqlDatabase db;
+    const bool windowsAuth = false;
     const QString hostname = QHostInfo::localHostName();
     const QString sqlInstance = "SQLEXPRESS";
     const QString username = "SA";
